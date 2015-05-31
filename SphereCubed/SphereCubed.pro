@@ -22,10 +22,16 @@ HEADERS += \
     world.h
 
 DISTFILES += \
-    SphereCubed.png
+    SphereCubed.png \
+    Images/Died.png \
+    Images/Finished.png \
+    Images/Menu.png \
+    Images/Over.png \
+    Images/Won.png
 
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    images.qrc
 
 CONFIG(debug, debug|release) {
   message("Debug")
