@@ -9,6 +9,11 @@ This file contains the Engine class declaration for the application.
 // QObject header file required for signals, slots, and events.
 #include <QObject>
 
+// game.h header file required for game Machine.
+#include "game.h"
+// world.h header file required for world functionality.
+#include "world.h"
+
 //! Engine class.
 /*!
 This class declaration encapsulates the Engine functionality.
@@ -46,7 +51,11 @@ private: // Member Function
     void tick();
 
 private: // Member Variables
+    //! Used for game play state machine logic to control World.
+    Game mGame;
 
+    //! Used to encapsulate game data and functionality.
+    World mWorld;
 
 signals:
     //! Emitted to begin rendering scene.

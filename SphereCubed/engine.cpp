@@ -6,6 +6,8 @@ This file contains the Engine class implementation for the application.
 // engine.h header file required for class definition.
 #include "engine.h"
 
+// QApplication header file required for sending events.
+#include <QApplication>
 // QEvent header file required for processing events.
 #include <QEvent>
 // <gl.h> header file required for OpenGL commands.
@@ -17,14 +19,14 @@ This file contains the Engine class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 //! The Engine execution begins here.
 //! Automatically called by the Window during construction.
 //! Passes parent argument onto base class constructor.
 //! \param parent is a pointer the QWidget parent object.
 Engine::Engine( QObject * parent ) :
-    QObject( parent )
+    QObject( parent ), mGame( mWorld )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::Engine( QObject * parent )...";
 } // Engine::Engine( QObject * parent )
@@ -59,8 +61,8 @@ bool Engine::event( QEvent * event )
 
     //! When it is any other event.
     default:
-        rVal = false;
-        break;
+        //! Send event to the Game Machine.
+        rVal = QApplication::sendEvent( &mGame, event );
     } // switch( event->type() )
 
     //! Return status of event processing.
@@ -77,6 +79,9 @@ void Engine::initialize()
     //! Set the color to clear the scene with to black.
     glClearColor(0.0f,0.0f,0.0f,1.0f);
 
+    //! Start the Game Machine.
+    mGame.start();
+
     //! Start the timer to periodically update the Game Machine.
     startTimer( ENGINE_TICK_INTERVAL );
 } // Engine::initialize()
@@ -90,6 +95,9 @@ void Engine::render()
 
     //! Clear the background and depth buffer.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //! Render the Game Machine.
+    mGame.render();
 
     //! Flush all the OpenGL command through the pipeline.
     glFlush();
@@ -112,6 +120,9 @@ void Engine::resize( const int width, const int height )
 void Engine::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::tick()...";
+
+    //! Update the Game Machine.
+    mGame.tick();
 
     //! Signal that the engine has updated the scene and is ready to render the scene.
     emit updateUI();

@@ -6,16 +6,20 @@ TEMPLATE = app
 
 SOURCES += \
     engine.cpp \
+    game.cpp \
     machine.cpp \
     main.cpp \
-    window.cpp
+    window.cpp \
+    world.cpp
 
 HEADERS += \
     engine.h \
+    game.h \
     machine.h \
     settings.h \
     trace.h \
-    window.h
+    window.h \
+    world.h
 
 DISTFILES += \
     SphereCubed.png
