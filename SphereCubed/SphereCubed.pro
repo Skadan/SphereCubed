@@ -27,11 +27,14 @@ DISTFILES += \
     Images/Finished.png \
     Images/Menu.png \
     Images/Over.png \
-    Images/Won.png
+    Images/Won.png \
+    Shaders/menushader.frag \
+    Shaders/menushader.vert
 
 RESOURCES += \
     icons.qrc \
-    images.qrc
+    images.qrc \
+    shaders.qrc
 
 CONFIG(debug, debug|release) {
   message("Debug")

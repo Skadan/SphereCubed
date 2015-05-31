@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Shaders/menushader.frag</file>
+        <file>Shaders/menushader.vert</file>
+    </qresource>
+</RCC>
