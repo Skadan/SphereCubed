@@ -11,6 +11,8 @@ This file contains the Camera class declaration for the application.
 // QVector3D header file required for positioning.
 #include <QVector3D>
 
+// frustum.h header file required for bounding Frustum class definition.
+#include "frustum.h"
 // machine.h header file required for Machine class definition.
 #include "machine.h"
 
@@ -163,6 +165,13 @@ class Camera : public Machine
     friend class World;
 
 public:
+    //! Determine if the bounding Box is with in the view of the Camera.
+    //! \param box const reference to the box to test.
+    //! \return bool is true if the Box is with in the view of the Camera.
+    //! \sa Camera
+    bool boxViewable( const Box & box ) const
+    { return ( ( mFrustum.boxViewable( box ) == Frustum::HALFSPACE::OUT ) ? false : true); }
+
     //! Access function to get Camera Up direction.
     //! \return QVector reference to the Camera Up direction vector.
     //! \sa Camera
@@ -247,6 +256,9 @@ private: // Member Variables
 
     //! Used to store the feild of view of the Camera.
     float mFeildOfView;
+
+    //! Used to calculate the Camera view bounding Frustum.
+    Frustum mFrustum;
 
     //! Used to store the Camera Menu Event condition trigger.
     bool mMenu;

@@ -5,21 +5,27 @@ TARGET = SphereCubed
 TEMPLATE = app
 
 SOURCES += \
+    box.cpp \
     camera.cpp \
     engine.cpp \
+    frustum.cpp \
     game.cpp \
     machine.cpp \
     main.cpp \
     menu.cpp \
+    plane.cpp \
     window.cpp \
     world.cpp
 
 HEADERS += \
+    box.h \
     camera.h \
     engine.h \
+    frustum.h \
     game.h \
     machine.h \
     menu.h \
+    plane.h \
     settings.h \
     trace.h \
     window.h \
@@ -39,6 +45,8 @@ RESOURCES += \
     icons.qrc \
     images.qrc \
     shaders.qrc
+
+QMAKE_CXXFLAGS += -std=c++11
 
 CONFIG(debug, debug|release) {
   message("Debug")
