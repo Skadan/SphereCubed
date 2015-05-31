@@ -6,6 +6,11 @@ This file contains the World class declaration for the application.
 #ifndef WORLD_H
 #define WORLD_H
 
+// camera.h header file required for Camera Machine.
+#include "camera.h"
+// Menu.h header file required for Menu.
+#include "menu.h"
+
 //! World class.
 /*!
 This class declaration encapsulates the World functionality.
@@ -17,18 +22,16 @@ class World
     friend class Engine;
 
 public: // Member Functions
+    //! Access function to get reference to Camera functionality.
+    //! \return Camera reference to the Camera functionality.
+    //! \sa Camera
+    Camera & camera() { return mCamera; }
+
     //! \todo Refactor into the Player Class
     //! Access function to get Player Died condition trigger.
     //! \return bool is the trigger state.
     //! \sa Player
     bool getDied() { return mDied; }
-
-    //! \todo Refactor into the Player Class
-    //! Access function to set the Player Died condition trigger.
-    //! \return void
-    //! \param value is the state to set trigger to.
-    //! \sa Player
-    void setDied( bool value ) { mDied = value; }
 
     //! \todo- Refactor into the Level Class
     //! Access function to get Player Finished condition trigger.
@@ -37,24 +40,10 @@ public: // Member Functions
     bool getFinished() { return mFinished; }
 
     //! \todo Refactor into the Level Class
-    //! Access function to set the Player Finished condition trigger.
-    //! \return void
-    //! \param value is the state to set trigger to.
-    //! \sa Level
-    void setFinished( bool value ) { mFinished = value; }
-
-    //! \todo Refactor into the Level Class
     //! Access function to get Level Last condition trigger.
     //! \return bool is the trigger state.
     //! \sa Level
     bool getLastLevel() { return mLastLevel; }
-
-    //! \todo Refactor into the Level Class
-    //! Access function to set the Level Last condition trigger.
-    //! \return void
-    //! \param value is the state to set trigger to.
-    //! \sa Level
-    void setLastLevel( bool value ) { mLastLevel = value; }
 
     //! \todo Refactor into the Player Class
     //! Access function to get Player Last Life condition trigger.
@@ -62,30 +51,58 @@ public: // Member Functions
     //! \sa Player
     bool getLastLife() { return mLastLife; }
 
-    //! \todo Refactor into the Player Class
-    //! Access function to set the Player Last Life condition trigger.
-    //! \return void
-    //! \param value is the state to set trigger to.
-    //! \sa Player
-    void setLastLife( bool value ) { mLastLife = value; }
-
     //! Access function to get Return Key condition trigger.
     //! \return bool is the state.
     //! \sa Game
     bool getReturn() { return mReturnKeyPressed; }
-
-    //! Access function to set the Return Key condition trigger.
-    //! \param bool is the state to set trigger to.
-    //! \sa Game
-    void setReturn( bool value ) { mReturnKeyPressed = value; }
 
     //! Access function to get Space Key condition trigger.
     //! \return bool is the trigger state.
     //! \sa Game
     bool getSpace() { return mSpaceKeyPressed; }
 
+    //! Access function to get reference to Menu functionality.
+    //! \return Menureference to the Menu functionality.
+    //! \sa Menu
+    Menu & menu() { return mMenu; }
+
+    //! \todo Refactor into the Player Class
+    //! Access function to set the Player Died condition trigger.
+    //! \param value is the state to set trigger to.
+    //! \return void
+    //! \sa Player
+    void setDied( bool value ) { mDied = value; }
+
+    //! \todo Refactor into the Level Class
+    //! Access function to set the Player Finished condition trigger.
+    //! \param value is the state to set trigger to.
+    //! \return void
+    //! \sa Level
+    void setFinished( bool value ) { mFinished = value; }
+
+    //! \todo Refactor into the Level Class
+    //! Access function to set the Level Last condition trigger.
+    //! \param value is the state to set trigger to.
+    //! \return void
+    //! \sa Level
+    void setLastLevel( bool value ) { mLastLevel = value; }
+
+    //! \todo Refactor into the Player Class
+    //! Access function to set the Player Last Life condition trigger.
+    //! \param value is the state to set trigger to.
+    //! \return void
+    //! \sa Player
+    void setLastLife( bool value ) { mLastLife = value; }
+
+    //! Access function to set the Return Key condition trigger.
+    //! \param value is the state to set trigger to.
+    //! \return void
+    //! \sa Game
+    void setReturn( bool value ) { mReturnKeyPressed = value; }
+
     //! Access function to set the Space Key condition trigger.
-    //! \param bool is the state to set trigger to.
+    //! \param value is the state to set trigger to.
+    //! \return void
     //! \sa Game
     void setSpace( bool value ) { mSpaceKeyPressed = value; }
 
@@ -97,6 +114,9 @@ private: // Constructors / Destructors
     ~World();
 
 private: // Member Variables
+    //! Used to store the Camera functionality.
+    Camera mCamera;
+
     //! \todo Refactor into the Player Class
     //! Used to trigger the Player Died Event.
     bool mDied;
@@ -112,6 +132,9 @@ private: // Member Variables
     //! \todo Refactor into the Player Class
     //! Used to trigger the Player Last Life Event.
     bool mLastLife;
+
+    //! Used to store the Menu functionality.
+    Menu mMenu;
 
     //! Used to trigger the Return Key Event.
     bool mReturnKeyPressed;

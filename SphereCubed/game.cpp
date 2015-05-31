@@ -50,6 +50,11 @@ void GameDiedState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameDiedState::enter...";
 
+    //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
+    mWorld.camera().setMenu( true );
+
+    //! Load the Menu with the died background image.
+    mWorld.menu().load(":ImageMenuDied");
 } // GameDiedState::enter()
 
 //! Process received events.
@@ -102,6 +107,8 @@ void GameDiedState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameDiedState::exit...";
 
+    //! Unload the menu image.
+    mWorld.menu().unload();
 } // GameDiedState::exit()
 
 //! Render the State.
@@ -111,15 +118,25 @@ void GameDiedState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameDiedState::render...";
 
+    //! Setup the Camera for rendering the Menu.
+    mWorld.camera().render();
+
+    //! Render the Menu
+    mWorld.menu().render( mWorld.camera() );
 } // GameDiedState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GameDiedState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameDiedState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
+
+    //! Update the Menu
+    mWorld.menu().tick();
 } // GameDiedState::tick()
 
 // GameFinishedState ---------------------------------------------------------------
@@ -150,6 +167,11 @@ void GameFinishedState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedState::enter...";
 
+    //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
+    mWorld.camera().setMenu( true );
+
+    //! Load the Menu with the finished background image.
+    mWorld.menu().load(":ImageMenuFinished");
 } // GameFinishedState::enter()
 
 //! Process received events.
@@ -202,6 +224,8 @@ void GameFinishedState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedState::exit...";
 
+    //! Unload the menu image.
+    mWorld.menu().unload();
 } // GameFinishedState::exit()
 
 //! Render the State.
@@ -211,15 +235,25 @@ void GameFinishedState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedState::render...";
 
+    //! Setup the Camera for rendering the Menu.
+    mWorld.camera().render();
+
+    //! Render the Menu
+    mWorld.menu().render( mWorld.camera() );
 } // GameFinishedState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GameFinishedState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
+
+    //! Update the Menu
+    mWorld.menu().tick();
 } // GameFinishedState::tick()
 
 // GameMenuState ---------------------------------------------------------------
@@ -250,6 +284,11 @@ void GameMenuState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameMenuState::enter...";
 
+    //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
+    mWorld.camera().setMenu( true );
+
+    //! Load the Menu with the menu background image.
+    mWorld.menu().load(":ImageMenuMenu");
 } // GameMenuState::enter()
 
 //! Process received events.
@@ -302,6 +341,8 @@ void GameMenuState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameMenuState::exit...";
 
+    //! Unload the menu image.
+    mWorld.menu().unload();
 } // GameMenuState::exit()
 
 //! Render the State.
@@ -311,15 +352,25 @@ void GameMenuState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameMenuState::render...";
 
+    //! Setup the Camera for rendering the Menu.
+    mWorld.camera().render();
+
+    //! Render the Menu
+    mWorld.menu().render( mWorld.camera() );
 } // GameMenuState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GameMenuState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameMenuState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
+
+    //! Update the Menu
+    mWorld.menu().tick();
 } // GameMenuState::tick()
 
 // GameOverState ---------------------------------------------------------------
@@ -350,6 +401,11 @@ void GameOverState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameOverState::enter...";
 
+    //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
+    mWorld.camera().setMenu( true );
+
+    //! Load the Menu with the over background image.
+    mWorld.menu().load(":ImageMenuOver");
 } // GameOverState::enter()
 
 //! Process received events.
@@ -402,6 +458,8 @@ void GameOverState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameOverState::exit...";
 
+    //! Unload the menu image.
+    mWorld.menu().unload();
 } // GameOverState::exit()
 
 //! Render the State.
@@ -411,15 +469,25 @@ void GameOverState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameOverState::render...";
 
+    //! Setup the Camera for rendering the Menu.
+    mWorld.camera().render();
+
+    //! Render the Menu
+    mWorld.menu().render( mWorld.camera() );
 } // GameOverState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GameOverState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameOverState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
+
+    //! Update the Menu
+    mWorld.menu().tick();
 } // GameOverState::tick()
 
 // GamePlayState ---------------------------------------------------------------
@@ -450,6 +518,8 @@ void GamePlayState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GamePlayState::enter...";
 
+    //! Set the Camera Play flag to trigger the Play Event to Switch to the Play State.
+    mWorld.camera().setPlay( true );
 } // GamePlayState::enter()
 
 //! Process received events.
@@ -492,15 +562,19 @@ void GamePlayState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GamePlayState::render...";
 
+    //! Setup the Camera for rendering game play.
+    mWorld.camera().render();
 } // GamePlayState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GamePlayState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GamePlayState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
 } // GamePlayState::tick()
 
 // GameWonState ---------------------------------------------------------------
@@ -531,6 +605,11 @@ void GameWonState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameWonState::enter...";
 
+    //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
+    mWorld.camera().setMenu( true );
+
+    //! Load the Menu with the won background image.
+    mWorld.menu().load(":ImageMenuWon");
 } // GameWonState::enter()
 
 //! Process received events.
@@ -583,6 +662,8 @@ void GameWonState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameWonState::exit...";
 
+    //! Unload the menu image.
+    mWorld.menu().unload();
 } // GameWonState::exit()
 
 //! Render the State.
@@ -592,15 +673,25 @@ void GameWonState::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameWonState::render...";
 
+    //! Setup the Camera for rendering the Menu.
+    mWorld.camera().render();
+
+    //! Render the Menu
+    mWorld.menu().render( mWorld.camera() );
 } // GameWonState::render()
 
-//! Update the state.
+//! Update the State.
 //! \return void
 //! \sa State, Event, Machine
 void GameWonState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameWonState::tick...";
 
+    //! Update the Camera
+    mWorld.camera().tick();
+
+    //! Update the Menu
+    mWorld.menu().tick();
 } // GameWonState::tick()
 
 

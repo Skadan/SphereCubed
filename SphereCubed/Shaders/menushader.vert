@@ -1,10 +1,8 @@
 #version 130
-//! Requires OpenGL version 1.3 of greater.
-
-/*! \file menushader.vert
-\brief menushader vertex shader file.
-This file contains the vertex shader for menus in the game application.
-*/
+//! \file menushader.vert
+//! \brief Vertex shader file for menus.
+//! \note Requires OpenGL version 1.3 of greater.
+//! \details This file contains the vertex shader for menus in the application.
 
 //! Create a uniform mat4 for the model view projection matrix.
 uniform mat4 mvpMatrix;

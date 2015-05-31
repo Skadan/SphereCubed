@@ -112,6 +112,8 @@ void Engine::resize( const int width, const int height )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::resize( const int width, const int height ) - (" << width << "," << height << ")...";
 
+    //! Resize the camera.
+    mWorld.camera().resize( width, height );
 } // Engine::resize( const int width, const int height )
 
 //! Update the scene.

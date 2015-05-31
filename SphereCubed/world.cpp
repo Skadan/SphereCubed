@@ -6,7 +6,6 @@ This file contains the World class implementation for the application.
 // world.h header file required for World class definition.
 #include "world.h"
 
-
 // trace.h header file required for tracing execution.
 #include "trace.h"
 
@@ -19,6 +18,14 @@ This file contains the World class implementation for the application.
 World::World()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "World::World()...";
+
+    //! Initialize the member variables.
+    mDied = false;
+    mFinished = false;
+    mLastLevel = false;
+    mLastLife = false;
+    mReturnKeyPressed = false;
+    mSpaceKeyPressed = false;
 } // World::World()
 
 //! The World execution ends here.

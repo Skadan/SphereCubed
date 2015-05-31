@@ -44,7 +44,7 @@ private: // Member Function
     //! Triggered whenever the scene needs to be rendered.
     void render();
 
-    //! Triggered whenever the OpenGL context needs tobe resized.
+    //! Triggered whenever the OpenGL context needs to be resized.
     void resize(const int width, const int height);
 
     //! Triggered whenever the Timer expires.

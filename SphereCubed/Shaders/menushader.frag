@@ -1,10 +1,8 @@
 #version 130
-//! Requires OpenGL version 1.3 of greater.
-
-/*! \file menushader.frag
-\brief menushader fragment shader file.
-This file contains the fragment shader for menus in the game application.
-*/
+//! \file menushader.frag
+//! \brief Fragment shader file for menus.
+//! \note Requires OpenGL version 1.3 of greater.
+//! \details This file contains the fragment shader for menus in the application.
 
 //! Create a uniform sampler2D for the texture.
 uniform sampler2D texture;

@@ -7,7 +7,6 @@ This file contains the Game class declaration for the application.
 
 // machine.h header file required for Machine class definition.
 #include "machine.h"
-
 // world.h header file required for World class definition.
 #include "world.h"
 
@@ -42,7 +41,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -79,7 +78,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -116,7 +115,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -153,7 +152,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -190,7 +189,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -227,7 +226,7 @@ private: // Member Function
     //! Triggered when exiting.
     virtual void exit();
 
-    //! Triggered periodically.
+    //! Triggered after a tick or when ever scene needs to be rendered.
     virtual void render();
 
     //! Triggered periodically.
@@ -403,7 +402,7 @@ private: // Member Variables
 //! Game class.
 /*!
 This class declaration encapsulates the Game functionality.
-The Engine instantiates a Game to manage the play states.
+The Engine instantiates a Game to manage the Game State Machine.
 */
 class Game : public Machine
 {
@@ -418,7 +417,7 @@ private: // Constructors / Destructors
     ~Game();
 
 private: // Member Function
-    //! Configure.
+    //! Configure the Machine.
     void configure();
 
 private: // Member Variables

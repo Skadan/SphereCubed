@@ -5,17 +5,21 @@ TARGET = SphereCubed
 TEMPLATE = app
 
 SOURCES += \
+    camera.cpp \
     engine.cpp \
     game.cpp \
     machine.cpp \
     main.cpp \
+    menu.cpp \
     window.cpp \
     world.cpp
 
 HEADERS += \
+    camera.h \
     engine.h \
     game.h \
     machine.h \
+    menu.h \
     settings.h \
     trace.h \
     window.h \
