@@ -5,11 +5,13 @@ TARGET = SphereCubed
 TEMPLATE = app
 
 SOURCES += \
+    engine.cpp \
     machine.cpp \
     main.cpp \
     window.cpp
 
 HEADERS += \
+    engine.h \
     machine.h \
     settings.h \
     trace.h \

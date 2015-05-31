@@ -12,10 +12,12 @@ This file contains the Window class declaration for the application.
 // QGLWidget header file required for the OpenGL window base class.
 #include <QGLWidget>
 
+#include "engine.h"
+
 //! Window class.
 /*!
 This class declaration encapsulates the Window functionality.
-The application instantiates one Window to display the Graphic User Interface (GUI).
+One Window is instantiated to display the Graphic User Interface (GUI).
 */
 class Window : public QGLWidget
 {
@@ -45,6 +47,10 @@ protected: // Member Function
 
     //! Triggered whenever the Window has been resized.
     virtual void resizeGL( int width, int height );
+
+private: // Member Variable
+    //! Used to run and render the game.
+    Engine mEngine;
 }; // Window
 
 #endif // WINDOW_H

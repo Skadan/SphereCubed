@@ -6,6 +6,8 @@ This file contains the Window class implementation for the application.
 // window.h header file required for class definition.
 #include "window.h"
 
+// QApplication header file required for sending event.
+#include <QApplication>
 // QIcon header file required for window icon.
 #include <QIcon>
 
@@ -28,6 +30,9 @@ Window::Window(QWidget *parent)
 
     //! Set the window icon.
     setWindowIcon( QIcon( ":/SphereCubedIcon" ) );
+
+    //! Connect the Engine updateUI signal to the Window updateGL slot.
+    connect( &mEngine, SIGNAL(updateUI()), this, SLOT(updateGL()) );
 } // Window::Window()
 
 //! The GUI Window execution ends here.
@@ -46,18 +51,25 @@ bool Window::event( QEvent * event )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Window::event( QEvent * event): " << event->type() << "...";
 
-    //! Return value, assume processed until otherwise determined.
-    bool rVal = true;
+    //! Return value, assume NOT processed until otherwise determined.
+    bool rVal = false;
 
-    //! Determine what type of event was received.
-    switch( event->type() )
+    //! Pass the event to the Engine.
+    rVal = QApplication::sendEvent( &mEngine, event );
+
+    //! If the Engine did not process the event.
+    if( rVal == false )
     {
-    //! When it is any other event.
-    default:
-        //! Pass the unprocessed events to the base class.
-        rVal = QGLWidget::event( event );
-        break;
-    } // switch( event->type() )
+        //! Determine what type of event was received.
+        switch( event->type() )
+        {
+        //! When it is any other event.
+        default:
+            //! Pass the unprocessed events to the base class.
+            rVal = QGLWidget::event( event );
+            break;
+        } // switch( event->type() )
+    }
 
     //! If the event was processed.
     if( rVal == true )
@@ -83,9 +95,8 @@ void Window::initializeGL()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Window::initializeGL()...";
 
-    //! \todo Move into Engine when possible.
-    //! Set the color to clear the scene with to black.
-    glClearColor(0.0f,0.0f,0.0f,1.0f);
+    //! Initialize the Engine.
+    mEngine.initialize();
 } // Window::initializeGL()
 
 //! Render OpenGL scene.
@@ -95,9 +106,8 @@ void Window::paintGL()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Window::paintGL()...";
 
-    //! \todo Move into Engine when possible.
-    //! Clear the background and depth buffer.
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //! Render the Engine.
+    mEngine.render();
 } // Window::paintGL()
 
 //! Resize OpenGL resources.
@@ -106,6 +116,9 @@ void Window::paintGL()
 void Window::resizeGL( int width, int height )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Window::resizeGL( int width, int height ): " << width << ", " << height << "...";
+
+    //! Resize the Engine.
+    mEngine.resize( width, height );
 } // Window::resizeGL( int width, int height )
 
 //! Specify the Window default size.
