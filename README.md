@@ -10,6 +10,9 @@
  
  The sphere will roll, bounce, and fall as it navigates from the beginning to the end of levels. 
 
- \section install_sec Checking Out the Project.
+ \section checkout_sec Checking Out the Project.
  git clone https://github.com/Skadan/SphereCubed
+ 
+ \section install_sec Download the latest executable.
+ Linux: http://skadan.github.io/SphereCubed/SphereCubed.tar.gz
 */
