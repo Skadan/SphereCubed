@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file alias="MenuShaderFragment">Shaders/menushader.frag</file>
         <file alias="MenuShaderVertex">Shaders/menushader.vert</file>
+        <file alias="PlayShaderFragment">Shaders/playshader.frag</file>
+        <file alias="PlayShaderVertex">Shaders/playshader.vert</file>
     </qresource>
 </RCC>

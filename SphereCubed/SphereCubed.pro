@@ -39,7 +39,9 @@ DISTFILES += \
     Images/Over.png \
     Images/Won.png \
     Shaders/menushader.frag \
-    Shaders/menushader.vert
+    Shaders/menushader.vert \
+    Shaders/playshader.frag \
+    Shaders/playshader.vert
 
 RESOURCES += \
     icons.qrc \
