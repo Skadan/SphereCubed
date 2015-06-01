@@ -10,6 +10,7 @@ SOURCES += \
     engine.cpp \
     frustum.cpp \
     game.cpp \
+    light.cpp \
     machine.cpp \
     main.cpp \
     menu.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     engine.h \
     frustum.h \
     game.h \
+    light.h \
     machine.h \
     menu.h \
     plane.h \
