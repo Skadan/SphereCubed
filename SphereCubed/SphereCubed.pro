@@ -37,6 +37,7 @@ DISTFILES += \
     Images/Finished.png \
     Images/Menu.png \
     Images/Over.png \
+    Images/Standard.png \
     Images/Won.png \
     Shaders/menushader.frag \
     Shaders/menushader.vert \
