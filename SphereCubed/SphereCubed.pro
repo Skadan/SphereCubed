@@ -39,6 +39,7 @@ DISTFILES += \
     Images/Over.png \
     Images/Standard.png \
     Images/Won.png \
+    Levels/Level1.lvl \
     Shaders/menushader.frag \
     Shaders/menushader.vert \
     Shaders/playshader.frag \
@@ -47,6 +48,7 @@ DISTFILES += \
 RESOURCES += \
     icons.qrc \
     images.qrc \
+    levels.qrc \
     shaders.qrc
 
 QMAKE_CXXFLAGS += -std=c++11
