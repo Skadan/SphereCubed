@@ -289,6 +289,11 @@ void Cube::render( const Camera & camera, const Light & light )
     //! If Cube resources are NOT loaded Assert to alert there is an issue.
     Q_ASSERT_X( mLoaded == true, "Cube::render","Resources NOT Loaded!");
 
+    if( camera.boxViewable( mBox + mPosition ) == false )
+    {
+        return;
+    }
+
     //! Get a reference to the Camera view matrix.
     const QMatrix4x4 & viewMatrix = camera.viewMatrix();
     //! Get a reference to the Camera projection matrix.

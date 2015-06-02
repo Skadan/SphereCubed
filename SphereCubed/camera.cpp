@@ -129,7 +129,7 @@ void CameraPlayState::enter()
     //! Setup the camera to view game play.
 
     //! Position the Camera.
-    mCamera.eye()       = QVector3D(5.0f,25.0f,5.0f);
+    mCamera.eye()       = QVector3D(5.0f,5.0f,5.0f);
     //! Focus the Camera.
     mCamera.focus()     = QVector3D(6,0,6);
     //! Orient the Camera so that positive Y is up.
@@ -157,6 +157,9 @@ void CameraPlayState::render()
     //! Position, focus, and orient the camera
     mCamera.viewMatrix().setToIdentity();
     mCamera.viewMatrix().lookAt( mCamera.eye(), mCamera.focus(), mCamera.direction() );
+
+    //! Setup the bounding Frustum planes for the new settings.
+    mCamera.view(  mCamera.eye(), mCamera.focus(), mCamera.direction() );
 } // CameraPlayState::render()
 
 //! Update the State.
@@ -367,4 +370,7 @@ void Camera::resize( const int width, const int height )
     //! Set the perspective.
     mProjectionMatrix.setToIdentity();
     mProjectionMatrix.perspective( mFeildOfView, ratio, mNearDistance, mFarDistance );
+
+    //! Update the bounding frustum with the projectio settings.
+    mFrustum.projection( mFeildOfView, ratio, mNearDistance, mFarDistance );
 } // Camera::resize( const int width, const int height )

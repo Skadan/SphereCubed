@@ -220,6 +220,15 @@ public:
     //! \sa Camera
     void setPlay( bool value ) { mPlay = value; }
 
+    //! Access function to setup the bounding Frustum planes for the new settings.
+    //! \param eye is the position of the Camera.
+    //! \param focus is the position the Camera is pointer towards.
+    //! \param up is the up direction of the camera.
+    //! \return void
+    //! \sa Camera, Frustum, Box, Cube
+    void view( const QVector3D & eye, const QVector3D & focus, const QVector3D & up )
+    { mFrustum.view( eye, focus, up ); }
+
     //! Access function to get Camera view matrix..
     //! \return QMatrix4x4 reference to the Camera view matrix.
     //! \sa Camera
