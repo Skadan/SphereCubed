@@ -75,6 +75,8 @@ bool Sphere::loadBuffer()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Sphere::loadBuffer()...";
 
+    //! \todo Clean up logic and add detailed comments for Sphere vertex and UV generation.
+
     //! Set the radius of the Sphere to 0.5 units
     const float radius = 0.5f;
     //! Set the number of slices in the Sphere to 36
@@ -95,9 +97,9 @@ bool Sphere::loadBuffer()
         for(uint i=0; i<slices; i++)
         {
             //! Calculate the vertex at the intersection of the slices..
-            vertex[j*slices+i] = QVector3D( (r * qSin(qDegreesToRadians((360.0f/float(slices)) * float(i)))),
+            vertex[j*slices+i] = QVector3D( (r * qSin(qDegreesToRadians( (360.0f/float(slices)) * float(i) - 90))),
                                                y,
-                                               r * qCos(qDegreesToRadians((360.0f/float(slices)) * float(i))) );
+                                               r * qCos(qDegreesToRadians((360.0f/float(slices)) * float(i) - 90)) );
         } // for(uint i=0; i<slices; i++)
     } // for(uint j=0; j<slices; j++)
 
@@ -109,7 +111,7 @@ bool Sphere::loadBuffer()
     QVector<QVector2D> textureCoordinates;
 
     //! Loop through the vertical slices.
-    for(uint k=1; k<=slices; k++)
+    for(uint k=1; k<slices; k++)
     {
         //! Loop through the horizontal slices.
         for(uint l=1; l<=slices; l++)
@@ -119,35 +121,49 @@ bool Sphere::loadBuffer()
             QVector2D uv;
 
             //! Calculate the lower left vertex and uv coordinate.
-            vert = vertex[(k-1)*slices+l-1];
+            vert = vertex[(k-1)*slices + l-1];
             vertices << vert;
             vert.normalize();
             normals << vert;
-            uv = QVector2D(0.5 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.5f - qAsin(vert.y()) / M_PI);
+            float _x1 = 0.5 + (float)( qRound( qAtan2(vert.z(),vert.x()) / (2*M_PI) * 1000) ) / 1000.0f;
+            _x1 = _x1 == 0 ? 1 : _x1;
+            float _y1 = 0.5 - qAsin(vert.y()) / M_PI;
+            uv = QVector2D(_x1, _y1);
+            //uv = QVector2D(0.0 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.0f - qAsin(vert.y()) / M_PI);
             textureCoordinates << uv;
 
             //! Calculate the lower right vertex and uv coordinate.
-            vert = vertex[(k-0)*slices+l-1];
+            vert = vertex[(k-0)*slices + l-1];
             vertices << vert;
             vert.normalize();
             normals << vert;
-            uv = QVector2D(0.5 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.5f - qAsin(vert.y()) / M_PI);
+            float _x2 = 0.5 + (float)( qRound( qAtan2(vert.z(),vert.x()) / (2*M_PI) * 1000) ) / 1000.0f;
+            _x2 = _x2 == 0 ? 1 : _x2;
+            float _y2 = 0.5 - qAsin(vert.y()) / M_PI;
+            uv = QVector2D(_x2, _y2);
+            //uv = QVector2D(0.0 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.0f - qAsin(vert.y()) / M_PI);
             textureCoordinates << uv;
 
             //! Calculate the upper right vertex and uv coordinate.
-            vert = vertex[(k-0)*slices+l];
+            vert = vertex[(k-0)*slices + l];
             vertices << vert;
             vert.normalize();
             normals << vert;
-            uv = QVector2D(0.5 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.5f - qAsin(vert.y()) / M_PI);
+            float _x3 = 0.5 + (float)( qRound( qAtan2(vert.z(),vert.x()) / (2*M_PI) * 1000) ) / 1000.0f;
+            float _y3 = 0.5 - qAsin(vert.y()) / M_PI;
+            uv = QVector2D(_x3, _y3);
+            //uv = QVector2D(0.0 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.0f - qAsin(vert.y()) / M_PI);
             textureCoordinates << uv;
 
             //! Calculate the upper left vertex and uv coordinate.
-            vert = vertex[(k-1)*slices+l];
+            vert = vertex[(k-1)*slices + l];
             vertices << vert;
             vert.normalize();
             normals << vert;
-            uv = QVector2D(0.5 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.5f - qAsin(vert.y()) / M_PI);
+            float _x4 = 0.5 + (float)( qRound( qAtan2(vert.z(),vert.x()) / (2*M_PI) * 1000) ) / 1000.0f;
+            float _y4 = 0.5 - qAsin(vert.y()) / M_PI;
+            uv = QVector2D(_x4, _y4);
+            //uv = QVector2D(0.0 + qAtan2(vert.z(),vert.x()) / (2*M_PI), 0.0f - qAsin(vert.y()) / M_PI);
             textureCoordinates << uv;
         } // for(uint l=1; l<=slices; l++)
     } // for(uint k=1; k<=slices; k++)
