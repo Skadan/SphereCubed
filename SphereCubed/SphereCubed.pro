@@ -7,6 +7,7 @@ TEMPLATE = app
 SOURCES += \
     box.cpp \
     camera.cpp \
+    cube.cpp \
     engine.cpp \
     frustum.cpp \
     game.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     box.h \
     camera.h \
+    cube.h \
     engine.h \
     frustum.h \
     game.h \
