@@ -68,7 +68,9 @@ void Cube::load()
     if( loadBuffers( Cube::LEFT )   == false ) { unload(); return; }
 
     //! Attempt to load the Cube OpenGL textures, if fail unload and return without loading Cube.
+    if( loadTexture( CubeType::START,    ":Start"    ) == false ) { unload(); return; }
     if( loadTexture( CubeType::STANDARD, ":Standard" ) == false ) { unload(); return; }
+    if( loadTexture( CubeType::FINISH,   ":Finish"   ) == false ) { unload(); return; }
 
     //! Track that the Cube resource are now loaded.
     mLoaded = true;
@@ -316,8 +318,7 @@ void Cube::render( const Camera & camera, const Light & light )
 
     //! Set the active multitexture index to 0 and bind to it.
     glActiveTexture(GL_TEXTURE0);
-    //glBindTexture(GL_TEXTURE_2D, mpTexture[mType]->textureId());
-    glBindTexture( GL_TEXTURE_2D, mpTexture[CubeType::STANDARD]->textureId() );
+    glBindTexture(GL_TEXTURE_2D, mpTexture[mType]->textureId());
     glActiveTexture(0);
 
     //! Rendr the Cube faces.

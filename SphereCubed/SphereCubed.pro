@@ -40,10 +40,12 @@ HEADERS += \
 DISTFILES += \
     SphereCubed.png \
     Images/Died.png \
+    Images/Finish.png \
     Images/Finished.png \
     Images/Menu.png \
     Images/Over.png \
     Images/Standard.png \
+    Images/Start.png \
     Images/Won.png \
     Levels/Level1.lvl \
     Shaders/menushader.frag \
