@@ -17,6 +17,7 @@ SOURCES += \
     main.cpp \
     menu.cpp \
     plane.cpp \
+    sphere.cpp \
     window.cpp \
     world.cpp
 
@@ -33,12 +34,14 @@ HEADERS += \
     menu.h \
     plane.h \
     settings.h \
+    sphere.h \
     trace.h \
     window.h \
     world.h
 
 DISTFILES += \
     SphereCubed.png \
+    Images/Concrete.png \
     Images/Died.png \
     Images/Finish.png \
     Images/Finished.png \

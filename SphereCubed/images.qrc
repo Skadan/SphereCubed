@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file alias="Concrete">Images/Concrete.png</file>
         <file alias="ImageMenuDied">Images/Died.png</file>
         <file alias="Finish">Images/Finish.png</file>
         <file alias="ImageMenuFinished">Images/Finished.png</file>
