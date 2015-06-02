@@ -218,128 +218,138 @@ void Level::load()
             bool front  = false;
             bool back   = false;
 
-            //! If the cube is on the back row.
-            if( z == 0 )
+            //! If the cube is a Hole type.
+            if( mpCube[x + z * mCubeCols].mType == Cube::CubeType::HOLE )
             {
-                //! -Then the back face is visible.
-                back = true;
-
-                //! -If it is higher then the Cube in fornt of it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
-                {
-                    //! --Then the front face is visible.
-                    front = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
-            } // if( z == 0 )
-            //! If the cube is on the front row.
-            else if( z == (mCubeRows - 1) )
-            {
-                //! -Then the front face is visible.
-                front = true;
-
-                //! -If it is higher then the Cube in behind it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
-                {
-                    //! --Then the back face is visible.
-                    back = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
-            } // else if( z == (mCubeRows - 1) )
-            //! Else the Cube is not on the front or back edge of the Level.
+                //! All faces are invisible.
+                top = false;
+            } // if( mpCube[x + z * mCubeCols].mType == Cube::CubeType::HOLE )
+            //! Determine what faces could be visible.
             else
             {
-                //! -If it is higher then the Cube in behind it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
+                //! If the cube is on the back row.
+                if( z == 0 )
                 {
-                    //! --Then the back face is visible.
+                    //! -Then the back face is visible.
                     back = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
 
-                //! -If it is higher then the Cube in front of it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
+                    //! -If it is higher then the Cube in fornt of it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the front face is visible.
+                        front = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
+                } // if( z == 0 )
+                //! If the cube is on the front row.
+                else if( z == (mCubeRows - 1) )
                 {
-                    //! --Then the front face is visible.
+                    //! -Then the front face is visible.
                     front = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
 
-                //! -If the Cube behind is a HOLE cube..
-                if( mpCube[x + (z - 1) * mCubeCols].mType == Cube::HOLE)
+                    //! -If it is higher then the Cube in behind it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the back face is visible.
+                        back = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
+                } // else if( z == (mCubeRows - 1) )
+                //! Else the Cube is not on the front or back edge of the Level.
+                else
                 {
-                    //! --Then the back face is visible.
-                    back = true;
-                } // if( mpCube[x + (z - 1) * mCubeCols].type() == Cube::HOLE)
+                    //! -If it is higher then the Cube in behind it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the back face is visible.
+                        back = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z - 1) * mCubeCols].mPosition.y() )
 
-                //! -If the Cube in front is a HOLE cube..
-                if( mpCube[x + (z + 1) * mCubeCols].mType == Cube::HOLE)
+                    //! -If it is higher then the Cube in front of it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the front face is visible.
+                        front = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[x + (z + 1) * mCubeCols].mPosition.y() )
+
+                    //! -If the Cube behind is a HOLE cube..
+                    if( mpCube[x + (z - 1) * mCubeCols].mType == Cube::HOLE)
+                    {
+                        //! --Then the back face is visible.
+                        back = true;
+                    } // if( mpCube[x + (z - 1) * mCubeCols].type() == Cube::HOLE)
+
+                    //! -If the Cube in front is a HOLE cube..
+                    if( mpCube[x + (z + 1) * mCubeCols].mType == Cube::HOLE)
+                    {
+                        //! --Then the front face is visible.
+                        front = true;
+                    } // if( mpCube[x + (z + 1) * mCubeCols].type() == Cube::HOLE)
+                } // if( z == 0 ) else if( z == (mCubeRows - 1) ) else
+
+                //! If the cube is on the left row.
+                if( x == 0 )
                 {
-                    //! --Then the front face is visible.
-                    front = true;
-                } // if( mpCube[x + (z + 1) * mCubeCols].type() == Cube::HOLE)
-            } // if( z == 0 ) else if( z == (mCubeRows - 1) ) else
-
-            //! If the cube is on the left row.
-            if( x == 0 )
-            {
-                //! -Then the left face is visible.
-                left = true;
-
-                //! -If it is higher then the Cube to the right of it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
-                {
-                    //! --Then the right face is visible.
-                    right = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
-            } // if( x == 0 )
-            //! If the cube is on the right row.
-            else if( x == (mCubeCols - 1) )
-            {
-                //! -Then the right face is visible.
-                right = true;
-
-                //! -If it is higher then the Cube to the left of it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
-                {
-                    //! --Then the LEFT face is visible.
+                    //! -Then the left face is visible.
                     left = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
-            } // else if( x == (mCubeCols - 1) )
-            //! Else the Cube is not on the left or right edge of the Level.
-            else
-            {
-                //! -If it is higher then the Cube to the left it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
-                {
-                    //! --Then the left face is visible.
-                    left = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
 
-                //! -If it is higher then the Cube to the right it.
-                if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
+                    //! -If it is higher then the Cube to the right of it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the right face is visible.
+                        right = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
+                } // if( x == 0 )
+                //! If the cube is on the right row.
+                else if( x == (mCubeCols - 1) )
                 {
-                    //! --Then the right face is visible.
+                    //! -Then the right face is visible.
                     right = true;
-                } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
 
-                //! -If the Cube to the left is a HOLE Cube.
-                if( mpCube[(x - 1) + z * mCubeCols].mType == Cube::HOLE)
+                    //! -If it is higher then the Cube to the left of it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the LEFT face is visible.
+                        left = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
+                } // else if( x == (mCubeCols - 1) )
+                //! Else the Cube is not on the left or right edge of the Level.
+                else
                 {
-                    //! --Then the left face is visible.
-                    left = true;
-                } // if( mpCube[(x - 1) + z * mCubeCols].type() == Cube::HOLE)
+                    //! -If it is higher then the Cube to the left it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the left face is visible.
+                        left = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x - 1) + z * mCubeCols].mPosition.y() )
 
-                //! -If the Cube to the right is a HOLE Cube.
-                if( mpCube[(x + 1) + z * mCubeCols].mType == Cube::HOLE)
+                    //! -If it is higher then the Cube to the right it.
+                    if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
+                    {
+                        //! --Then the right face is visible.
+                        right = true;
+                    } // if( mpCube[x + z * mCubeCols].mPosition.y() > mpCube[(x + 1) + z * mCubeCols].mPosition.y() )
+
+                    //! -If the Cube to the left is a HOLE Cube.
+                    if( mpCube[(x - 1) + z * mCubeCols].mType == Cube::HOLE)
+                    {
+                        //! --Then the left face is visible.
+                        left = true;
+                    } // if( mpCube[(x - 1) + z * mCubeCols].type() == Cube::HOLE)
+
+                    //! -If the Cube to the right is a HOLE Cube.
+                    if( mpCube[(x + 1) + z * mCubeCols].mType == Cube::HOLE)
+                    {
+                        //! --Then the right face is visible.
+                        right = true;
+                    } // if( mpCube[(x + 1) + z * mCubeCols].type() == Cube::HOLE)
+                } // if( x == 0 ) else if( x == (mCubeCols - 1) ) else
+
+                //! If the Cube is higher then 1.
+                if( mpCube[x + z * mCubeCols].mPosition.y() > 1 )
                 {
-                    //! --Then the right face is visible.
-                    right = true;
-                } // if( mpCube[(x + 1) + z * mCubeCols].type() == Cube::HOLE)
-            } // if( x == 0 ) else if( x == (mCubeCols - 1) ) else
-
-            //! If the Cube is higher then 1.
-            if( mpCube[x + z * mCubeCols].mPosition.y() > 1 )
-            {
-                //! Assume the bottom is visible.
-                bottom = true;
-            } // if( mpCube[x + z * mCubeCols].mPosition.y() > 1 )
+                    //! Assume the bottom is visible.
+                    bottom = true;
+                } // if( mpCube[x + z * mCubeCols].mPosition.y() > 1 )
+            }
 
             //! Set the Cube Face visibility as has been determined.
             mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::TOP    ] = top;
