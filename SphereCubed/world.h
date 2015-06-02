@@ -8,6 +8,10 @@ This file contains the World class declaration for the application.
 
 // camera.h header file required for Camera Machine.
 #include "camera.h"
+// level.h header file required for Level.
+#include "level.h"
+// light.h header file required for Light.
+#include "light.h"
 // Menu.h header file required for Menu.
 #include "menu.h"
 
@@ -60,6 +64,16 @@ public: // Member Functions
     //! \return bool is the trigger state.
     //! \sa Game
     bool getSpace() { return mSpaceKeyPressed; }
+
+    //! Access function to get reference to Level functionality.
+    //! \return Menureference to the Level functionality.
+    //! \sa Level
+    Level & level() { return mLevel; }
+
+    //! Access function to get reference to Light functionality.
+    //! \return Menureference to the Light functionality.
+    //! \sa Light
+    Light & light() { return mLight; }
 
     //! Access function to get reference to Menu functionality.
     //! \return Menureference to the Menu functionality.
@@ -132,6 +146,12 @@ private: // Member Variables
     //! \todo Refactor into the Player Class
     //! Used to trigger the Player Last Life Event.
     bool mLastLife;
+
+    //! Used to store the Level functionality.
+    Level mLevel;
+
+    //! Used to store the Light functionality.
+    Light mLight;
 
     //! Used to store the Menu functionality.
     Menu mMenu;

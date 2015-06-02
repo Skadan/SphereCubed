@@ -119,9 +119,21 @@ void CameraPlayState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "CameraPlayState::enter()...";
 
+    //! Turn on depth testing anf back face culling.
+    glEnable(GL_DEPTH_TEST );
+    glEnable( GL_CULL_FACE );
+
     //! Set the color to clear the scene with to black
     glClearColor(0.0f,0.0f,0.0f,1.0f);
 
+    //! Setup the camera to view game play.
+
+    //! Position the Camera.
+    mCamera.eye()       = QVector3D(-5.0f,5.0f,-5.0f);
+    //! Focus the Camera.
+    mCamera.focus()     = QVector3D(6,0,6);
+    //! Orient the Camera so that positive Y is up.
+    mCamera.direction() = QVector3D(0,1,0);
 } // CameraPlayState::enter()
 
 //! Exit the State.
@@ -142,7 +154,9 @@ void CameraPlayState::render()
     //! Clear the background and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // MJS TODO - Add play Rendering here.
+    //! Position, focus, and orient the camera
+    mCamera.viewMatrix().setToIdentity();
+    mCamera.viewMatrix().lookAt( mCamera.eye(), mCamera.focus(), mCamera.direction() );
 } // CameraPlayState::render()
 
 //! Update the State.

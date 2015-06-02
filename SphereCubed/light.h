@@ -11,6 +11,10 @@ This file contains the Light class declaration for the application.
 // QVector3D header file required position.
 #include <QVector3D>
 
+//! Light class.
+/*!
+This class declaration encapsulates the Light functionality.
+*/
 class Light
 {
     //! Friend of World so that only World can instantiate the Light.

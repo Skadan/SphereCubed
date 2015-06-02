@@ -34,7 +34,7 @@ This file contains the Menu class implementation for the application.
 #endif //WIN32
 
 //! The Menu execution begins here.
-//! Creates components to load a Menu.
+//! Creates components to load and render a Menu.
 //! Automatically called by the World during construction.
 Menu::Menu() :
     mpTexture( NULL )
@@ -60,6 +60,8 @@ Menu::~Menu()
 } // Menu::~Menu()
 
 //! Load the Opengl vertex data, shader program, and texture image.
+//! \param imageName is the path to the Menu background image to load.
+//! \return void
 void Menu::load( QString imageName )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Menu::load()...";

@@ -520,6 +520,9 @@ void GamePlayState::enter()
 
     //! Set the Camera Play flag to trigger the Play Event to Switch to the Play State.
     mWorld.camera().setPlay( true );
+
+    //! Load the Level.
+    mWorld.level().load();
 } // GamePlayState::enter()
 
 //! Process received events.
@@ -553,6 +556,8 @@ void GamePlayState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GamePlayState::exit...";
 
+    //! Unload the Level.
+    mWorld.level().unload();
 } // GamePlayState::exit()
 
 //! Render the State.
@@ -564,6 +569,9 @@ void GamePlayState::render()
 
     //! Setup the Camera for rendering game play.
     mWorld.camera().render();
+
+    //! Render the Level.
+    mWorld.level().render( mWorld.camera(), mWorld.light() );
 } // GamePlayState::render()
 
 //! Update the State.

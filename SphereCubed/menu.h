@@ -22,12 +22,8 @@ This class declaration encapsulates the Menu functionality.
 */
 class Menu
 {
-public: // Constructors / Destructors
-    //! Menu class constructor.
-    Menu();
-
-    //! Menu class destructor.
-    ~Menu();
+    //! Friend of World so that only World can instantiate the Menu.
+    friend class World;
 
 public: // Member Function
     //! Triggered after a tick or when ever scene needs to be rendered.
@@ -41,6 +37,13 @@ public: // Member Function
 
     //! Called to unload a Menu and image.
     void unload();
+
+private: // Constructors / Destructors
+    //! Menu class constructor.
+    Menu();
+
+    //! Menu class destructor.
+    ~Menu();
 
 private: // Member Variables
     //! Used to store the OpenGL shader program.
