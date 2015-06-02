@@ -22,6 +22,13 @@ class Level
     //! Friend of World so that only World can instantiate the Level.
     friend class World;
 
+public: // Access Functions
+    //! Called to get the Cube type at a location in the Level.
+    Cube::CubeType cubeType( uint column, uint row );
+
+    //! Called to get the start position for the Level.
+    QVector3D & startPosition() { return mStartPosition; }
+
 public: // Member Functions
     //! Called to load the Level OpenGL resources.
     void load();
@@ -34,9 +41,6 @@ public: // Member Functions
 
     //! Called to unload the Level OpenGL resources.
     void unload();
-
-    //! Called to get the Cube type at a location in the Level.
-    Cube::CubeType cubeType( uint column, uint row );
 
 private: // Constructors / Destructors
     //! Level class constructor.

@@ -129,7 +129,7 @@ void CameraPlayState::enter()
     //! Setup the camera to view game play.
 
     //! Position the Camera.
-    mCamera.eye()       = QVector3D(5.0f,20.0f,5.0f);
+    mCamera.eye()       = QVector3D(5.0f,25.0f,5.0f);
     //! Focus the Camera.
     mCamera.focus()     = QVector3D(6,0,6);
     //! Orient the Camera so that positive Y is up.

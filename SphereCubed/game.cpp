@@ -523,6 +523,11 @@ void GamePlayState::enter()
 
     //! Load the Level.
     mWorld.level().load();
+
+    //! Load the Player.
+    mWorld.player().load();
+
+    mWorld.player().position() = mWorld.level().startPosition();
 } // GamePlayState::enter()
 
 //! Process received events.
@@ -542,6 +547,7 @@ bool GamePlayState::event( QEvent * event )
     //! When it is any other event. Do nothing.
     default:
         TraceOut( TRACE_FILE_EXECUTION ) << "Event " << event->type() << " NOT processed in GamePlayState...";
+        rVal = QApplication::sendEvent( &mWorld.player(), event );
         break;
     } // switch( event->type() )
 
@@ -558,6 +564,9 @@ void GamePlayState::exit()
 
     //! Unload the Level.
     mWorld.level().unload();
+
+    //! Unload the Player.
+    mWorld.player().unload();
 } // GamePlayState::exit()
 
 //! Render the State.
@@ -572,6 +581,9 @@ void GamePlayState::render()
 
     //! Render the Level.
     mWorld.level().render( mWorld.camera(), mWorld.light() );
+
+    //! Render the Player.
+    mWorld.player().render( mWorld.camera(), mWorld.light() );
 } // GamePlayState::render()
 
 //! Update the State.
@@ -583,6 +595,9 @@ void GamePlayState::tick()
 
     //! Update the Camera
     mWorld.camera().tick();
+
+    //! Update the Player.
+    mWorld.player().tick();
 } // GamePlayState::tick()
 
 // GameWonState ---------------------------------------------------------------

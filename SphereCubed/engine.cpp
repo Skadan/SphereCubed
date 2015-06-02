@@ -19,7 +19,7 @@ This file contains the Engine class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION false
+#define TRACE_FILE_EXECUTION true
 
 //! The Engine execution begins here.
 //! Automatically called by the Window during construction.

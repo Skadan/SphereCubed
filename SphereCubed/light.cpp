@@ -19,7 +19,7 @@ Light::Light()
     TraceOut( TRACE_FILE_EXECUTION ) << "Light::Light()...";
 
     //! Initialize the member variables
-    mOffset        = QVector3D(0,10,0);
+    mOffset        = QVector3D(6,10,6);
     mTarget        = QVector3D(0,0,0);
 
     mAmbientColor  = QColor(32,32,32);

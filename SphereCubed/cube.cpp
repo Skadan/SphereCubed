@@ -34,6 +34,8 @@ QOpenGLTexture *        Cube::mpTexture[ Cube::CubeType::CUBE_TYPE_COUNT ];
 //! Automatically called by the Level during load.
 Cube::Cube()
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Cube::Cube()...";
+
     //! Initialize all Cube Textures to NULL.
     for( int i = 0; i < CubeType::CUBE_TYPE_COUNT; i++ ) { mpTexture[i] = NULL; }
 } // Cube::Cube()
@@ -43,6 +45,8 @@ Cube::Cube()
 //! Automatically called when Level unload.
 Cube::~Cube()
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Cube::~Cube()...";
+
     //! Make sure to unload all Cube resources.
     unload();
 } // Cube::~Cube()
@@ -53,8 +57,14 @@ void Cube::load()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Cube::load()...";
 
-    //! If Cube resources are already loaded Assert to alert there is an issue.
-    Q_ASSERT_X( mLoaded == false, "Cube::load","Resources Already Loaded!");
+    //! If Cube resources are already loaded.
+    if( mLoaded == true )
+    {
+        //! Assert to alert there is an issue.
+        Q_ASSERT_X( false, "Cube::load","Resources Already Loaded!");
+        //! Return without loading.
+        return;
+    } // if( mLoaded == true )
 
     //! Attempt to load the Cube OpenGL Shaders, if fail unload and return without loading Cube.
     if( loadShaders() == false ) { unload(); return; }
@@ -196,7 +206,7 @@ bool Cube::loadShaders()
     //! Attempt to add to the shader program the cube vertex shader.
     if( mProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":PlayShaderVertex") == false)
     {
-        TraceOut( TRACE_FILE_EXECUTION ) << "Menu::load - addShaderFromSourceFile Vertex shader Failed...";
+        TraceOut( TRACE_FILE_EXECUTION ) << "Cube::load - addShaderFromSourceFile Vertex shader Failed...";
         //! If add failed Assert to alert there is an issue.
         Q_ASSERT_X(false, "mProgram.addShaderFromSourceFile Failed", ":PlayShaderVertex");
         //! Return false without loading shader.
@@ -262,7 +272,7 @@ bool Cube::loadTexture( CubeType cubeType, QString texture )
         Q_ASSERT_X( false, "Convert Image to Texture Failed", texture.toLatin1() );
         //! Return fasle without loading texture.
         return false;
-    }
+    } // if( (mpTexture[ cubeType ] = new QOpenGLTexture( image )) == NULL )
 
     //! Texture loaded successfully return true.
     return true;
@@ -280,7 +290,7 @@ void Cube::render( const Camera & camera, const Light & light )
     Q_ASSERT_X( mLoaded == true, "Cube::render","Resources NOT Loaded!");
 
     //! Get a reference to the Camera view matrix.
-    const QMatrix4x4 & viewMatrix       = camera.viewMatrix();
+    const QMatrix4x4 & viewMatrix = camera.viewMatrix();
     //! Get a reference to the Camera projection matrix.
     const QMatrix4x4 & projectionMatrix = camera.projectionMatrix();
     //! Create a model matrix.

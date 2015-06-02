@@ -47,6 +47,8 @@ Level::~Level()
 //! \return CubeType is the type of cube at the specified location.
 Cube::CubeType Level::cubeType( uint column, uint row )
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Level::cubeType( uint column, uint row )...";
+
     //! Assert to alert there is an issue if the specified location is NOT within the bounds of the Level.
     Q_ASSERT_X( column < mCubeCols, "Level::cubeType( uint column, uint row )","Column is out of bounds.");
     Q_ASSERT_X( row < mCubeRows,    "Level::cubeType( uint column, uint row )","Row is out of bounds.");
@@ -59,6 +61,8 @@ Cube::CubeType Level::cubeType( uint column, uint row )
 //! \return void
 void Level::load()
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Level::load()...";
+
     //! Increment level index to next Level.
     mLevelIndex++;
 
@@ -133,7 +137,7 @@ void Level::load()
         return;
     } // if( (mpCube = new Cube[mCubeCount]) == NULL)
 
-    //! Load the cube openGL resources.
+    //! Load the Cube openGL resources.
     Cube::load();
 
     //! Configure the cubes
@@ -338,12 +342,12 @@ void Level::load()
             } // if( mpCube[x + z * mCubeCols].mPosition.y() > 1 )
 
             //! Set the Cube Face visibility as has been determined.
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::TOP]       = top;
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::BOTTOM]    = bottom;
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::LEFT]      = left;
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::RIGHT]     = right;
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::NEAR]      = front;
-            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::FAR]       = back;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::TOP    ] = top;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::BOTTOM ] = bottom;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::LEFT   ] = left;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::RIGHT  ] = right;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::NEAR   ] = front;
+            mpCube[x + z * mCubeCols].mFace[ Cube::CubeFace::FAR    ] = back;
         } // for(uint x=0; x<mCubeCols; x++)
     } // for(z=0; z<mCubeRows; z++)
 } // Level::load()
@@ -354,6 +358,8 @@ void Level::load()
 //! \return void
 void Level::render( const Camera & camera, const Light & light )
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Level::render( const Camera & camera, const Light & light )...";
+
     //! Verify the Cube array pointer is valid.
     if( mpCube != NULL )
     {
@@ -370,6 +376,8 @@ void Level::render( const Camera & camera, const Light & light )
 //! \return void
 void Level::tick()
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Level::tick()...";
+
     //! Verify the Cube array pointer is valid.
     if( mpCube != NULL )
     {
@@ -386,6 +394,8 @@ void Level::tick()
 //! \return void
 void Level::unload()
 {
+    TraceOut( TRACE_FILE_EXECUTION ) << "Level::unload()...";
+
     //! Unload the Cube OpenGL resources.
     Cube::unload();
 

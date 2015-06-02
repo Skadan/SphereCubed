@@ -14,6 +14,8 @@ This file contains the World class declaration for the application.
 #include "light.h"
 // Menu.h header file required for Menu.
 #include "menu.h"
+// Player.h header file required for Player.
+#include "player.h"
 
 //! World class.
 /*!
@@ -79,6 +81,11 @@ public: // Member Functions
     //! \return Menureference to the Menu functionality.
     //! \sa Menu
     Menu & menu() { return mMenu; }
+
+    //! Access function to get reference to Player functionality.
+    //! \return Menureference to the Player functionality.
+    //! \sa Player
+    Player & player() { return mPlayer; }
 
     //! \todo Refactor into the Player Class
     //! Access function to set the Player Died condition trigger.
@@ -155,6 +162,9 @@ private: // Member Variables
 
     //! Used to store the Menu functionality.
     Menu mMenu;
+
+    //! Used to store the Player functionality.
+    Player mPlayer;
 
     //! Used to trigger the Return Key Event.
     bool mReturnKeyPressed;
