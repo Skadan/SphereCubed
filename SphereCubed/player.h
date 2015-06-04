@@ -29,8 +29,29 @@ class Player : public QObject
     friend class World;
 
 public: // Access Functions
-    //! Called to get/set the player position.
-    QVector3D& position()  { return mPosition; }
+    //! Called to get/set the applied force to the player.
+    QVector3D & force() { return mForce; }
+
+    //! Called to get/set the Players mass.
+    float & mass() { return mMass; }
+
+    //! Called to get/set the player's position.
+    QVector3D & position()  { return mPosition; }
+
+    //! Called to get the player's sphere radius.
+    float sphereRadius() { return mSphereRadius; }
+
+    //! Called to get/set the player's rolling resistance.
+    float & rollingResistanceCoefficient() { return mRollingResistanceCoefficient; }
+
+    //! Called to get/set the player's rotation.
+    QQuaternion & rotation() { return mRotation; }
+
+    //! Called to get/set the player's terminal velocity.
+    float & terminalLinearVelocity() { return mTerminalVelocity; }
+
+    //! Called to get/set the player's velocity.
+    QVector3D & velocity() { return mVelocity; }
 
 public: // Member Functions
     //! Called to load the Player OpenGL resources.
@@ -57,14 +78,38 @@ private: // Member Functions
     virtual bool event(QEvent *event);
 
 private:
-    //! Used to store the Sphere representing the Player.
-    Sphere mSphere;
+    //! Used to store the direction to apply the user force to the player.
+    QVector3D mDirection = QVector3D(0,0,1);
+
+    //! Used to store the force the user is applying to the player.
+    QVector3D mForce;
+
+    //! Used to store the player's mass.
+    float mMass = 0.010f;
 
     //! Used to store the position of the player.
     QVector3D mPosition;
 
+    //! Used to store the player's rolling resistance coefficent.
+    float mRollingResistanceCoefficient = 0.005f;
+
     //! Used to store the rotation of the player.
     QQuaternion mRotation;
+
+    //! Used to store the Sphere representing the Player.
+    Sphere mSphere;
+
+    //! Used to store the Sphere radius.
+    const float mSphereRadius = 0.5f;
+
+    //! Used to store amount of force the user can apply.
+    float mUserStrength = 0.1f;
+
+    //! Used to store the player's terminal velocity.
+    float mTerminalVelocity = 3.0f;
+
+    //! Used to store the player's velocity.
+    QVector3D mVelocity;
 }; // class Player
 
 #endif // PLAYER_H

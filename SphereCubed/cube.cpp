@@ -10,7 +10,7 @@ This file contains the Cube class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 #ifdef WIN32
     //! If a Windows build
@@ -404,6 +404,11 @@ void Cube::tick()
 void Cube::unload()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Cube::upload()...";
+
+    if( mLoaded == false )
+    {
+        return;
+    }
 
     //! Remove all shaders added to the program.
     mProgram.removeAllShaders();

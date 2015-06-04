@@ -29,14 +29,14 @@ class Engine : public QObject
 
 private: // Constructors / Destructors
     //! Engine class constructor.
-    explicit Engine(QObject *parent = 0);
+    explicit Engine( int timeInterval, QObject * parent = 0 );
 
     //! Engine class destructor.
     ~Engine();
 
 private: // Member Function
     //! Triggered when an event is received.
-    virtual bool event(QEvent *event);
+    virtual bool event( QEvent * event );
 
     //! Triggered once before the first call to render or resize.
     void initialize();
@@ -45,17 +45,20 @@ private: // Member Function
     void render();
 
     //! Triggered whenever the OpenGL context needs to be resized.
-    void resize(const int width, const int height);
+    void resize( const int width, const int height );
 
     //! Triggered whenever the Timer expires.
     void tick();
 
 private: // Member Variables
-    //! Used for game play state machine logic to control World.
-    Game mGame;
+    //! Used to store the tick timer time interval.
+    int mTimeInterval;
 
     //! Used to encapsulate game data and functionality.
     World mWorld;
+
+    //! Used for game play state machine logic to control World.
+    Game mGame;
 
 signals:
     //! Emitted to begin rendering scene.

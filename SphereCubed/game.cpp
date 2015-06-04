@@ -15,7 +15,7 @@ This file contains the Game class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 
 //------------------------------------------------------------------------------
@@ -592,6 +592,9 @@ void GamePlayState::render()
 void GamePlayState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GamePlayState::tick...";
+
+    //! Update the physics.
+    mWorld.physics().tick();
 
     //! Update the Camera
     mWorld.camera().tick();

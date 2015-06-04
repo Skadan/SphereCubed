@@ -17,14 +17,15 @@ This file contains the Window class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 //! The Graphical User Interface (GUI) Window execution begins here.
 //! Calling this constructor is required to setup the Window.
 //! Passes parent argument onto base class constructor.
 //! \param parent is a pointer the QWidget parent object.
 Window::Window(QWidget *parent)
-    : QGLWidget(QGLFormat(/* Additional format options */), parent)
+    : QGLWidget(QGLFormat(/* Additional format options */), parent),
+      mEngine( ENGINE_TICK_INTERVAL )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Window::Window()...";
 

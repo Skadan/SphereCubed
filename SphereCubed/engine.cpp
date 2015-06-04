@@ -19,14 +19,18 @@ This file contains the Engine class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 //! The Engine execution begins here.
 //! Automatically called by the Window during construction.
 //! Passes parent argument onto base class constructor.
+//! \param timeInterval is the tick timer cycle interval.
 //! \param parent is a pointer the QWidget parent object.
-Engine::Engine( QObject * parent ) :
-    QObject( parent ), mGame( mWorld )
+Engine::Engine( int timeInterval, QObject * parent ) :
+    QObject( parent ),
+    mTimeInterval( timeInterval ),
+    mWorld( timeInterval ),
+    mGame( mWorld )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::Engine( QObject * parent )...";
 } // Engine::Engine( QObject * parent )
@@ -76,14 +80,11 @@ void Engine::initialize()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::initialize()...";
 
-    //! Set the color to clear the scene with to black.
-    glClearColor(0.0f,0.0f,0.0f,1.0f);
-
     //! Start the Game Machine.
     mGame.start();
 
     //! Start the timer to periodically update the Game Machine.
-    startTimer( ENGINE_TICK_INTERVAL );
+    startTimer( mTimeInterval );
 } // Engine::initialize()
 
 //! Render the scene.
@@ -92,9 +93,6 @@ void Engine::initialize()
 void Engine::render()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Engine::render()...";
-
-    //! Clear the background and depth buffer.
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //! Render the Game Machine.
     mGame.render();

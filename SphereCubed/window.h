@@ -12,6 +12,7 @@ This file contains the Window class declaration for the application.
 // QGLWidget header file required for the OpenGL window base class.
 #include <QGLWidget>
 
+// engine.h header file required for the Engine.
 #include "engine.h"
 
 //! Window class.

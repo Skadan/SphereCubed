@@ -13,7 +13,7 @@ This file contains the Player class implementation for the application.
 #include "trace.h"
 
 //! Trace file execution flag.
-#define TRACE_FILE_EXECUTION true
+#define TRACE_FILE_EXECUTION false
 
 //! The Player execution begins here.
 //! Automatically called by the World during construction.
@@ -22,7 +22,7 @@ This file contains the Player class implementation for the application.
 Player::Player( QObject * parent ) :
     QObject( parent )
 {
-    TraceOut( TRACE_FILE_EXECUTION ) << "Player::Player( QObject * parent )...";
+    TraceOut( TRACE_FILE_EXECUTION ) << "Player::Player( QObject * parent )...";    
 } // Player::Player( QObject *parent )
 
 //! The Player execution ends here.
@@ -52,6 +52,30 @@ bool Player::event( QEvent * event )
         //! Determine which key was pressed.
         switch( ((QKeyEvent*)event)->key() )
         {
+        //! When it is the Down key.
+        case Qt::Key_Down:
+            //! Apply the force in the negative direction.
+            mForce += -mDirection * mUserStrength;
+            break;
+
+        //! When it is the Left key.
+        case Qt::Key_Left:
+            //! Apply the force to the left of the direction.
+            mForce += QVector3D( mDirection.z(), 0, (-1 * mDirection.x()) ) * mUserStrength;
+            break;
+
+        //! When it is the Right key.
+        case Qt::Key_Right:
+            //! Apply the force to the Right of the direction.
+            mForce += QVector3D( (-1 * mDirection.z()), 0, mDirection.x() ) * mUserStrength;
+            break;
+
+        //! When it is the Up key.
+        case Qt::Key_Up:
+            //! Apply the force in the direction.
+            mForce += mDirection * mUserStrength;
+            break;
+
         //! When it is any other key.
         default:
             //! Dont process the key press event and set the return value to false.
@@ -101,6 +125,9 @@ void Player::tick()
 
     //! Update the Sphere position.
     mSphere.mPosition = mPosition;
+
+    //! Update the Sphere rotation.
+    mSphere.mRotation = mRotation;
 
     //! Update the Sphere.
     mSphere.tick();

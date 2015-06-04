@@ -15,7 +15,9 @@ This file contains the World class implementation for the application.
 //! The World execution begins here.
 //! Create a World.
 //! Automatically called when the Engine is constructed.
-World::World()
+//! \param timeInterval is the time interval in mS between world updates.
+World::World( int timeInterval ) :
+    mPhysics( timeInterval, mLevel, mPlayer )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "World::World()...";
 

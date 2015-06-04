@@ -14,6 +14,8 @@ This file contains the World class declaration for the application.
 #include "light.h"
 // Menu.h header file required for Menu.
 #include "menu.h"
+// Physics.h header file required for Physics.
+#include "physics.h"
 // Player.h header file required for Player.
 #include "player.h"
 
@@ -73,17 +75,22 @@ public: // Member Functions
     Level & level() { return mLevel; }
 
     //! Access function to get reference to Light functionality.
-    //! \return Menureference to the Light functionality.
+    //! \return Light reference to the Light functionality.
     //! \sa Light
     Light & light() { return mLight; }
 
     //! Access function to get reference to Menu functionality.
-    //! \return Menureference to the Menu functionality.
+    //! \return Menu reference to the Menu functionality.
     //! \sa Menu
     Menu & menu() { return mMenu; }
 
+    //! Access function to get reference to Physics functionality.
+    //! \return Physics reference to the Menu functionality.
+    //! \sa Menu
+    Physics & physics() { return mPhysics; }
+
     //! Access function to get reference to Player functionality.
-    //! \return Menureference to the Player functionality.
+    //! \return Player reference to the Player functionality.
     //! \sa Player
     Player & player() { return mPlayer; }
 
@@ -129,7 +136,7 @@ public: // Member Functions
 
 private: // Constructors / Destructors
     //! World class constructor.
-    World();
+    World( int timeInterval );
 
     //! World class destructor.
     ~World();
@@ -162,6 +169,9 @@ private: // Member Variables
 
     //! Used to store the Menu functionality.
     Menu mMenu;
+
+    //! Used to store the Physics functionality.
+    Physics mPhysics;
 
     //! Used to store the Player functionality.
     Player mPlayer;

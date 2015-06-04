@@ -21,13 +21,6 @@ This file contains the Level class implementation for the application.
 Level::Level()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Level::Level()...";
-
-    //! Initialize the member variables
-    mCubeCount  = 0;
-    mCubeRows   = 0;
-    mCubeCols   = 0;
-    mpCube      = NULL;
-    mLevelIndex = 0;
 } // Level::Level()
 
 //! The Level execution ends here.
@@ -40,6 +33,50 @@ Level::~Level()
     //! Make sure to unload all Level resources.
     unload();
 } // Level::~Level()
+
+//! Check to see if there is a physical Cube at the position.
+//! \note Cube of type Hole are not considered a physical Cube.
+//! \return bool is true if there is a physical Cube at the position.
+bool Level::cubeAtPosition( int x, int y, int z )
+{
+    //! If Cube array is not loaded.
+    if( mpCube == NULL )
+    {
+        //! -Return false no Cube at the position.
+        return false;
+    } // if( mpCube == NULL )
+
+    //! If either of the horizontal position values is negative.
+    if( x < 0 || z < 0 )
+    {
+        //! -Return false no Cubes exists in the negative region.
+        return false;
+    } // if( x < 0 || z < 0 )
+
+    //! If either of the horizontal position values is out of range.
+    if( (uint)x >= mCubeCols || (uint)z > mCubeRows )
+    {
+        //! -Return false no Cubes exists in the out of range region.
+        return false;
+    } // if( x >= mCubeCols || z > mCubeRows )
+
+    //! If the Cube at that position is of type Hole.
+    if( mpCube[ x + z * mCubeCols ].mType == Cube::HOLE )
+    {
+        //! -Return false effectively no physical Cube exists at that position.
+        return false;
+    } // if( mpCube[ x + z * mCubeCols ].mType == Cube::HOLE )
+
+    //! If the Y value of the Cube is different then the Y specified.
+    if( mpCube[ x + z * mCubeCols ].mPosition.y() != y )
+    {
+        //! -Return false the cube is at a different height.
+        return false;
+    } // if( mpCube[ x + z * mCubeCols ].mPosition.y() != y )
+
+    //! Return true there is a cube at the position.
+    return true;
+} // Level::cubeAtPosition( int x, int y, int z )
 
 //! Lookup what type of Cube is at the specified location.
 //! \param column is the X position in the Level.
@@ -56,6 +93,30 @@ Cube::CubeType Level::cubeType( uint column, uint row )
     //! Return the CubeType at the location.
     return mpCube[ row * mCubeCols + column ].mType;
 } // Level::cubeType( uint column, uint row )
+
+//! Check to see if the position is inside Level.
+//! \param position is value to check if it is inside the Level.
+//! \return bool is true if position is with in the limits of the Level.
+bool Level::insideLevel( const QVector3D & position )
+{
+    //! If the position Y is inside the Level.
+    if( position.y() >= -0.5f )
+    {
+        //! -If position X is inside the Level.
+        if( position.x() >= -0.5f && position.x() <= (mCubeCols + 0.5) )
+        {
+            //! --If the position Z is inside the Level.
+            if( position.x() >= -0.5f && position.x() <= (mCubeCols + 0.5) )
+            {
+                //! ---Return true position is inside the Level.
+                return true;
+            } // if( position.x() >= -0.5f && position.x() <= (mCubeCols + 0.5) )
+        } // if( position.x() >= -0.5f && position.x() <= (mCubeCols + 0.5) )
+    } // if( position.y() >= -0.5f )
+
+    //! Return false the position is outside the Level.
+    return false;
+} // Level::insideLevelCube( const QVector3D & position )
 
 //! Load the Opengl resources for the Level.
 //! \return void
@@ -361,6 +422,162 @@ void Level::load()
         } // for(uint x=0; x<mCubeCols; x++)
     } // for(z=0; z<mCubeRows; z++)
 } // Level::load()
+
+//! Check to see if the Player is directly on top of a physical Cube.
+//! \param position is the Player position.
+//! \return bool is true if player is on a Cube.
+bool Level::playerOnACube( const QVector3D & position )
+{
+    //! Calculate the center of the Cube the position would be in.
+    int cubeX = qRound( position.x() );
+    int cubeY = qRound( position.y() );
+    int cubeZ = qRound( position.z() );
+
+    //! If the Player is out of the Level.
+    if( insideLevel( QVector3D( cubeX, cubeY, cubeZ ) ) == false )
+    {
+        //! -Return false player is outside Level.
+        return false;
+    } // if( insideLevelCube( QVector3D( cubeX, cubeY, cubeZ ) ) == false )
+
+    //! If the Player is NOT on a plane.
+    if( playerOnPlane( position ) == false )
+    {
+        //! -Return false Player is not on a plane.
+        return false;
+    } // if( playerOnPlane( position ) == false )
+
+    //! If there is a cube directly below the Player position.
+    if( cubeAtPosition( cubeX, (cubeY - 1), cubeZ ) == true )
+    {
+        //! -Return true the player is on the plane and there is a cube directly below.
+        return true;
+    } // if( cubeAtPosition( cubeX, (cubeY - 1), cubeZ ) == true )
+
+    //! Calculate the distance from the center of the Cube to the Player position
+    float x = cubeX - position.x();
+    float z = cubeZ - position.z();
+
+    //! Calculate if the Player is on a edge of the Cube.
+    bool left  = qFuzzyCompare( x,  0.5f );
+    bool right = qFuzzyCompare( x, -0.5f );
+    bool far   = qFuzzyCompare( z,  0.5f );
+    bool near  = qFuzzyCompare( z, -0.5f );
+
+    //! Determine if the Player is on a corner of the Cube.
+
+    //! If the Player position is on the far left corner of the Cube.
+    if( ( far == true ) && ( left == true ) )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the far left corner.
+            return true;
+        } // if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+    } // if( ( far == true ) && ( left == true ) )
+
+    //! If the Player position is on the far right corner of the Cube.
+    if( ( far == true ) && ( right == true ) )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the far right corner.
+            return true;
+        } // if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+    } // if( ( far == true ) && ( right == true ) )
+
+    //! If the Player position is on the near left corner of the Cube.
+    if( ( near == true ) && ( left == true ) )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the near left corner.
+            return true;
+        } // if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+    } // if( ( near == true ) && ( left == true ) )
+
+    //! If the Player position is on the near right corner of the Cube.
+    if( ( near == true ) && ( right == true ) )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the near right corner.
+            return true;
+        } // if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+    } // if( ( bottom == true ) && ( right == true ) )
+
+    //! Determine if the Player is on a edge of the Cube.
+
+    //! If the Player is on the left edge of the Cube.
+    if( left == true )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), cubeZ ) == true )
+        {
+            //! --Return true there is a Cube directly below at the left edge.
+            return true;
+        } // if( cubeAtPosition( ( cubeX - 1 ), ( cubeY - 1 ), cubeZ ) == true )
+    } // if( left == true )
+
+    //! If the Player is on the right edge of the Cube.
+    if( right == true )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), cubeZ ) == true )
+        {
+            //! --Return true there is a Cube directly below at the right edge.
+            return true;
+        } // if( cubeAtPosition( ( cubeX + 1 ), ( cubeY - 1 ), cubeZ ) == true )
+    } // if( right == true )
+
+    //! If the Player is on the far edge of the Cube.
+    if( far == true )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( cubeX, ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the far edge.
+            return true;
+        } // if( cubeAtPosition( cubeX, ( cubeY - 1 ), ( cubeZ - 1 ) ) == true )
+    } // if( far == true )
+
+    //! If the Player is on the near edge of the Cube.
+    if( near == true )
+    {
+        //! -If there is a cube directly below the Player position.
+        if( cubeAtPosition( cubeX, ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+        {
+            //! --Return true there is a Cube directly below at the near edge.
+            return true;
+        } // if( cubeAtPosition( cubeX, ( cubeY - 1 ), ( cubeZ + 1 ) ) == true )
+    } // if( near == true )
+
+    //! Return false no Cube below Player position.
+    return false;
+} // Level::playerOnACube(const QVector3D &position)
+
+//! Check to see if the Player is at an interger height.
+//! \param position is the Player position to test.
+//! \return bool is true if position is on a plane, an interger height.
+bool Level::playerOnPlane( const QVector3D & position )
+{
+    //! Calculate the distance to the plane.
+    float planeDistance = position.y() - qRound(position.y());
+
+    //! If the distance equals zero.
+    if( qFuzzyCompare( 1 + planeDistance, 1 + 0.0f ) == true )
+    {
+        //! -Return true Player is on a plane.
+        return true;
+    } // if( qFuzzyCompare( 1 + planeDistance, 1 + 0.0f ) == true )
+
+    //! Return false Player is Not on a plane.
+    return false;
+} // Level::playerOnPlane( const QVector3D& position )
 
 //! Render the Opengl resources for the Level.
 //! \param camera is a const reference to Camera viewing the scene.

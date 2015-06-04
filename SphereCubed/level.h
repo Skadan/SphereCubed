@@ -23,11 +23,27 @@ class Level
     friend class World;
 
 public: // Access Functions
+    //! Called to get the Cube size.
+    float cubeSize() { return mCubeSize; }
+
     //! Called to get the Cube type at a location in the Level.
     Cube::CubeType cubeType( uint column, uint row );
 
     //! Called to get the start position for the Level.
     QVector3D & startPosition() { return mStartPosition; }
+
+public: // Query Functions
+    //! Called to find out if there is a physical Cube at the position specified.
+    bool cubeAtPosition( int x, int y, int z );
+
+    //! Called to find out if the position is with in a Cube of the Level.
+    bool insideLevel( const QVector3D & position );
+
+    //! Called to find out if the Player Position is directly on top of a physical Cube.
+    bool playerOnACube( const QVector3D & position );
+
+    //! Called to find out if the Player is on a plane.
+    bool playerOnPlane( const QVector3D& position );
 
 public: // Member Functions
     //! Called to load the Level OpenGL resources.
@@ -51,19 +67,22 @@ private: // Constructors / Destructors
 
 private: // Member Variables
     //! Used to store the number of Cube in Level.
-    uint   mCubeCount;
+    uint   mCubeCount = 0;
 
     //! Used to store the number of Cube rows in Level.
-    uint   mCubeRows;
+    uint   mCubeRows = 0;
 
     //! Used to store the number of Cube columns in Level.
-    uint   mCubeCols;
+    uint   mCubeCols = 0;
 
     //! Used to store the Cubes of the Level.
-    Cube * mpCube;
+    Cube * mpCube = NULL;
+
+    //! Used to store the Cube size.
+    const float mCubeSize = 1.0f;
 
     //! Used to store the current Level index number.
-    uint mLevelIndex;
+    uint mLevelIndex = 0;
 
     //! Used to store the start location of the Level.
     QVector3D mStartPosition;

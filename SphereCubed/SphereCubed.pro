@@ -16,6 +16,7 @@ SOURCES += \
     machine.cpp \
     main.cpp \
     menu.cpp \
+    physics.cpp \
     plane.cpp \
     player.cpp \
     sphere.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     light.h \
     machine.h \
     menu.h \
+    physics.h \
     plane.h \
     player.h \
     settings.h \
