@@ -15,6 +15,8 @@ This file contains the Camera class declaration for the application.
 #include "frustum.h"
 // machine.h header file required for Machine class definition.
 #include "machine.h"
+// settings.h header file required for application settings.
+#include "settings.h"
 
 // Pre-declared calss
 class Camera;
@@ -165,6 +167,16 @@ class Camera : public Machine
     friend class World;
 
 public:
+    //! Access function to get/set Camera pitch angle.
+    //! \return float reference to the Camera pitch angle in degrees.
+    //! \sa Camera
+    float & anglePitch() { return mCameraAnglePitch; }
+
+    //! Access function to get/set Camera yaw angle.
+    //! \return float reference to the Camera yaw angle in degrees.
+    //! \sa Camera
+    float & angleYaw() { return mCameraAngleYaw; }
+
     //! Determine if the bounding Box is with in the view of the Camera.
     //! \param box const reference to the box to test.
     //! \return bool is true if the Box is with in the view of the Camera.
@@ -210,6 +222,9 @@ public:
     //! Triggered whenever the OpenGL context needs to be resized.
     void resize(const int width, const int height);
 
+    //! Called to rotate the Camera to the current angle settings.
+    void rotateCamera();
+
     //! Access function to set the Camera Menu condition trigger.
     //! \param value is the state to set trigger to.
     //! \sa Camera
@@ -219,6 +234,21 @@ public:
     //! \param value is the state to set trigger to.
     //! \sa Camera
     void setPlay( bool value ) { mPlay = value; }
+
+    //! Access function to get/set the Camera target direction..
+    //! \return QVector3D reference to the Camera target direction.
+    //! \sa Camera
+    QVector3D & targetDirection() { return mCameraTargetDirection; }
+
+    //! Access function to get/set the Camera target distance..
+    //! \return QVector3D reference to the Camera target distence.
+    //! \sa Camera
+    QVector3D & targetDistance()  { return mCameraToTarget;   }
+
+    //! Access function to get/set the Camera target position..
+    //! \return QVector3D reference to the Camera target position.
+    //! \sa Camera
+    QVector3D & targetPosition()  { return mCameraTargetPosition; }
 
     //! Access function to setup the bounding Frustum planes for the new settings.
     //! \param eye is the position of the Camera.
@@ -251,6 +281,12 @@ private: // Member Function
     void configure();
 
 private: // Member Variables
+    //! Used to store the Camera yaw angle, initialize to 270.0 degrees.
+    float mCameraAngleYaw = 270.0f;
+
+    //! Used to store the Camera pitch angle, initialize to 45.0 degrees.
+    float mCameraAnglePitch = 45.0f;
+
     //! Used to store the up direction of Camera.
     QVector3D mCameraDirection;
 
@@ -260,26 +296,35 @@ private: // Member Variables
     //! Used to store the focal position of the Camera.
     QVector3D mCameraFocus;
 
-    //! Used to store the far clipping plane of the Camera.
-    float mFarDistance;
+    //! Used to store the distance between the focal position and the Camera.
+    QVector3D mCameraToTarget;
 
-    //! Used to store the feild of view of the Camera.
-    float mFeildOfView;
+    //! Used to store the far clipping plane of the Camera, initialize to the default distance.
+    float mFarDistance = CAMERA_FAR_CLIPPING_PLANE_DISTANCE;
+
+    //! Used to store the feild of view of the Camera, initialize to the default angle.
+    float mFeildOfView = CAMERA_FEILD_OF_VIEW_ANGLE_DEGREES;
 
     //! Used to calculate the Camera view bounding Frustum.
     Frustum mFrustum;
 
-    //! Used to store the Camera Menu Event condition trigger.
-    bool mMenu;
+    //! Used to store the Camera Menu Event condition trigger, initialize to the false.
+    bool mMenu = false;
 
-    //! Used to store the near clipping plane of the Camera.
-    float mNearDistance;
+    //! Used to store the near clipping plane of the Camera, initialize to the default distance.
+    float mNearDistance = CAMERA_NEAR_CLIPPING_PLANE_DISTANCE;
 
-    //! Used to store the Camera Play Event condition trigger.
-    bool mPlay;
+    //! Used to store the Camera Play Event condition trigger, initialize to the false.
+    bool mPlay = false;
 
     //! Used to store the Camera projection matrix.
     QMatrix4x4 mProjectionMatrix;
+
+    //! Used to store the direction the target is moving.
+    QVector3D mCameraTargetDirection;
+
+    //! Used to store the position of the target.
+    QVector3D mCameraTargetPosition;
 
     //! Used to store the Camera view matrix.
     QMatrix4x4 mViewMatrix;

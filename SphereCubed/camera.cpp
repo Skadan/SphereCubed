@@ -8,9 +8,9 @@ This file contains the Camera class implementation for the application.
 
 // gl.h header file required for gl commands.
 #include <GL/gl.h>
+// QtMath header is required for trig functions.
+#include <QtMath>
 
-// settings.h header file required for application settings.
-#include "settings.h"
 // trace.h header file required for tracing execution.
 #include "trace.h"
 
@@ -129,11 +129,13 @@ void CameraPlayState::enter()
     //! Setup the camera to view game play.
 
     //! Position the Camera.
-    mCamera.eye()       = QVector3D(5.0f,25.0f,5.0f);
+    mCamera.eye()       = QVector3D(0.0f,10.0f,0.0f);
     //! Focus the Camera.
-    mCamera.focus()     = QVector3D(6,0,6);
+    mCamera.focus()     = QVector3D(0,0,0);
     //! Orient the Camera so that positive Y is up.
     mCamera.direction() = QVector3D(0,1,0);
+    //! Calculate the distance between the camera and its point of focus.
+    mCamera.targetDistance() = mCamera.eye() - mCamera.focus();
 } // CameraPlayState::enter()
 
 //! Exit the State.
@@ -168,6 +170,42 @@ void CameraPlayState::render()
 void CameraPlayState::tick()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "CameraPlayState::tick()...";
+
+    //! Calculate the angle to rotate to, default to the current angle.
+    float angle = mCamera.angleYaw();
+
+    //! If the camera target is moving.
+    if( mCamera.targetDirection().length() > 0.0f )
+    {
+        //! *Calculate the heading angle of the moving target.
+        angle = (180 + qRadiansToDegrees( qAtan2( mCamera.targetDirection().z(), mCamera.targetDirection().x() ) ) );
+    } // if( mCamera.targetDirection().length() > 0.0f )
+
+    //! If there is a difference between the current Camera angle and the target heading angle.
+    if( false == qFuzzyCompare( mCamera.angleYaw(), angle ) )
+    {
+        //! *Calculate the difference between the Camera angle and the target heading angle.
+        float deltaAngle = ((angle + 360) - (mCamera.angleYaw() + 360));
+        //! Clamp angle from 0 to 360.
+        deltaAngle = deltaAngle < 0 ? deltaAngle + 360 : deltaAngle - 360;
+        deltaAngle = deltaAngle > 180 ? (deltaAngle - 360) : deltaAngle;
+        deltaAngle = deltaAngle < -180 ? (deltaAngle + 360) : deltaAngle;
+
+        //! *Calculate an interpolation of 10% of the total angle difference or 1.0 degree which ever is greater.
+        float slerp = qAbs(deltaAngle) < 1.0f ? deltaAngle : (deltaAngle *.1);
+
+        //! *Step the Camera angle towrds the target heading angle by the interpolation angle.
+        mCamera.angleYaw() += slerp;
+        mCamera.angleYaw() = (mCamera.angleYaw() >= 360) ? (mCamera.angleYaw() - 360) : mCamera.angleYaw();
+        mCamera.angleYaw() = (mCamera.angleYaw() < 0) ? (mCamera.angleYaw() + 360) : mCamera.angleYaw();
+    } //     if( false == qFuzzyCompare( mCamera.angleYaw(), angle ) )
+
+    //! Move the Camera to follow the target.
+    mCamera.eye() += mCamera.targetPosition() - mCamera.focus();
+    mCamera.focus() = mCamera.targetPosition();
+
+    //! Rotate the Camera to the new angle.
+    mCamera.rotateCamera();
 } // CameraPlayState::tick()
 
 
@@ -273,13 +311,6 @@ Camera::Camera() :
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Camera::Camera()...";
 
-    //! Initialize the member variables
-    mFarDistance = CAMERA_FAR_CLIPPING_PLANE_DISTANCE;
-    mFeildOfView = CAMERA_FEILD_OF_VIEW_ANGLE_DEGREES;
-    mMenu = false;
-    mNearDistance = CAMERA_NEAR_CLIPPING_PLANE_DISTANCE ;
-    mPlay = false;
-
     //! Configure the Camera State Machine
     configure();
 } // Camera::Camera()
@@ -374,3 +405,17 @@ void Camera::resize( const int width, const int height )
     //! Update the bounding frustum with the projectio settings.
     mFrustum.projection( mFeildOfView, ratio, mNearDistance, mFarDistance );
 } // Camera::resize( const int width, const int height )
+
+//! Rotate the poisition of the Camera around the point of focus by the Yaw and Pitch angles.
+//! \return void
+//! \sa Camera
+void Camera::rotateCamera()
+{
+    //! Rotate the Camera.
+    mCameraEye.setX( mCameraFocus.x() + mCameraToTarget.length() * cos( qDegreesToRadians( mCameraAngleYaw ) ) * sin( qDegreesToRadians( mCameraAnglePitch ) ) );
+    mCameraEye.setY( mCameraFocus.y() + mCameraToTarget.length() * cos( qDegreesToRadians( mCameraAnglePitch ) ) );
+    mCameraEye.setZ( mCameraFocus.z() + mCameraToTarget.length() * sin( qDegreesToRadians( mCameraAngleYaw ) ) * sin( qDegreesToRadians( mCameraAnglePitch ) ) );
+
+    //! Calculate the distance between the Camera and its point of focus.
+    mCameraToTarget = mCameraEye - mCameraFocus;
+} // Camera::rotateCamera()

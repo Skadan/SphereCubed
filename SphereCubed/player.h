@@ -29,7 +29,10 @@ class Player : public QObject
     friend class World;
 
 public: // Access Functions
-    //! Called to get/set the applied force to the player.
+    //! Called to get/set the direcction to apply user force to the Player.
+    QVector3D &direction() { return mDirection; }
+
+    //! Called to get/set the applied force to the Player.
     QVector3D & force() { return mForce; }
 
     //! Called to get/set the Players mass.
@@ -48,7 +51,7 @@ public: // Access Functions
     QQuaternion & rotation() { return mRotation; }
 
     //! Called to get/set the player's terminal velocity.
-    float & terminalLinearVelocity() { return mTerminalVelocity; }
+    float & terminalVelocity() { return mTerminalVelocity; }
 
     //! Called to get/set the player's velocity.
     QVector3D & velocity() { return mVelocity; }

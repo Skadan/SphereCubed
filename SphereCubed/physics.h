@@ -44,10 +44,10 @@ private: // Data Types
     }; // struct CollisionData
 
 private: // Member Variables
-    //! Used to track collisions to respond.
+    //! Used to track the next collision.
     CollisionData mCollisionData;
 
-    //! Used to store the size of Level cubes.
+    //! Used to store the size of a Level cube.
     float mHalfCubeSize;
 
     //! Used to store the radius of the Player sphere.
@@ -64,17 +64,17 @@ private: // Member Variables
 
 private: // Data Constants
     //! Standard gravity constant.
-    const float GRAVITY = 9.8;
+    const float GRAVITY = 9.81f;
 
-    //! Minumum velocity to eliminate oscillations caused by limited floating point precision.
-    const float MINIMUM_LINEAR_VELOCITY = 0.05f;
+    //! Minimum velocity to eliminate oscillations caused by limited floating point precision.
+    const float MINIMUM_VELOCITY = 0.05f;
 
 private: // Helper Functions
     //! Called to get the closest point on a given ray to a given point.
     QVector3D closestPointOnRayToPoint( QVector3D & rayStart, QVector3D & rayDirection, QVector3D & point );
 
     //! Called to detect next collision.
-    void collisionDetection( QVector3D & position, QVector3D & linearVelocity );
+    void collisionDetection( QVector3D & position, QVector3D & velocity );
 
     //! Called to detect collisions with corners of Cube.
     void collisionDetectionCornerTest( QVector3D & position, QVector3D & velocity );
@@ -91,7 +91,7 @@ private: // Helper Functions
     //! Called to get the distance on a given ray to intercept with given plane.
     float distanceOnRayToPlane( QVector3D & rayStart, QVector3D & rayDirection, QVector3D & planePoint, QVector3D & planeNormal );
 
-    //! Called to calulate all the forces.
+    //! Called to caclulate all the forces.
     void forces();
 
     //! Called to apply all the forces.

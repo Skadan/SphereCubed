@@ -17,14 +17,6 @@ This file contains the Light class implementation for the application.
 Light::Light()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Light::Light()...";
-
-    //! Initialize the member variables
-    mOffset        = QVector3D(6,10,6);
-    mTarget        = QVector3D(0,0,0);
-
-    mAmbientColor  = QColor(32,32,32);
-    mDiffuseColor  = QColor(128,128,128);
-    mSpecularColor = QColor(255,255,255);
 } // Light::Light()
 
 //! The Light execution ends here.

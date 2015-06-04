@@ -527,6 +527,7 @@ void GamePlayState::enter()
     //! Load the Player.
     mWorld.player().load();
 
+    //! Position the Player at the Level start position.
     mWorld.player().position() = mWorld.level().startPosition();
 } // GamePlayState::enter()
 
@@ -596,11 +597,18 @@ void GamePlayState::tick()
     //! Update the physics.
     mWorld.physics().tick();
 
-    //! Update the Camera
-    mWorld.camera().tick();
-
     //! Update the Player.
     mWorld.player().tick();
+
+    //! Update the target position of the Light.
+    mWorld.light().target() = mWorld.player().position();
+    //! Update the target position of the Camera.
+    mWorld.camera().targetPosition() = mWorld.player().position();
+    //! Update the target direction of the Camera.
+    mWorld.camera().targetDirection() = mWorld.player().direction();
+
+    //! Update the Camera
+    mWorld.camera().tick();
 } // GamePlayState::tick()
 
 // GameWonState ---------------------------------------------------------------

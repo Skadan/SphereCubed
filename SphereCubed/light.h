@@ -74,20 +74,20 @@ private: // Constructors / Destructors
     ~Light();
 
 private: // Member Variables
-    //! Used to store the ambient Light color.
-    QColor mAmbientColor;
+    //! Used to store the ambient Light color, initialize to dark grey.
+    QColor mAmbientColor = QColor(32,32,32);
 
-    //! Used to store the diffuse Light color.
-    QColor mDiffuseColor;
+    //! Used to store the diffuse Light color, initialize to medium grey.
+    QColor mDiffuseColor = QColor(128,128,128);
 
-    //! Used to store the Light offset from its illumination target.
-    QVector3D mOffset;
+    //! Used to store the Light offset from its illumination target, initialize to 10 units above the target.
+    QVector3D mOffset = QVector3D(0,10,0);
 
-    //! Used to store the specular Light color.
-    QColor mSpecularColor;
+    //! Used to store the specular Light color, initialize to white.
+    QColor mSpecularColor = QColor(255,255,255);
 
-    //! Used to store the Light illumination target position.
-    QVector3D mTarget;
+    //! Used to store the Light illumination target position, initialize to the origin.
+    QVector3D mTarget = QVector3D(0,0,0);
 }; // class Light
 
 #endif // LIGHT_H

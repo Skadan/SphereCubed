@@ -36,7 +36,7 @@ public: // Query Functions
     //! Called to find out if there is a physical Cube at the position specified.
     bool cubeAtPosition( int x, int y, int z );
 
-    //! Called to find out if the position is with in a Cube of the Level.
+    //! Called to find out if the position is with in the Level.
     bool insideLevel( const QVector3D & position );
 
     //! Called to find out if the Player Position is directly on top of a physical Cube.
@@ -66,22 +66,22 @@ private: // Constructors / Destructors
     ~Level();
 
 private: // Member Variables
-    //! Used to store the number of Cube in Level.
+    //! Used to store the number of Cube in Level, initialized to zero.
     uint   mCubeCount = 0;
 
-    //! Used to store the number of Cube rows in Level.
+    //! Used to store the number of Cube rows in Level, initialized to zero.
     uint   mCubeRows = 0;
 
-    //! Used to store the number of Cube columns in Level.
+    //! Used to store the number of Cube columns in Level, initialized to zero.
     uint   mCubeCols = 0;
 
-    //! Used to store the Cubes of the Level.
+    //! Used to store the Cubes of the Level, initialized to null.
     Cube * mpCube = NULL;
 
-    //! Used to store the Cube size.
+    //! Used to store the Cube size, initialized to 1.0.
     const float mCubeSize = 1.0f;
 
-    //! Used to store the current Level index number.
+    //! Used to store the current Level index number, initialized to zero.
     uint mLevelIndex = 0;
 
     //! Used to store the start location of the Level.
