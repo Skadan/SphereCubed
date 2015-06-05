@@ -29,6 +29,9 @@ public: // Access Functions
     //! Called to get the Cube type at a location in the Level.
     Cube::CubeType cubeType( uint column, uint row );
 
+    //! Called to get/set the current Level index.
+    uint & levelIndex() { return mLevelIndex; }
+
     //! Called to get the start position for the Level.
     QVector3D & startPosition() { return mStartPosition; }
 
@@ -82,7 +85,7 @@ private: // Member Variables
     const float mCubeSize = 1.0f;
 
     //! Used to store the current Level index number, initialized to zero.
-    uint mLevelIndex = 0;
+    uint mLevelIndex;
 
     //! Used to store the start location of the Level.
     QVector3D mStartPosition;

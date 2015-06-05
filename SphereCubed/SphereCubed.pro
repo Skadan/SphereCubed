@@ -55,6 +55,9 @@ DISTFILES += \
     Images/Start.png \
     Images/Won.png \
     Levels/Level1.lvl \
+    Levels/Level2.lvl \
+    Levels/Level3.lvl \
+    Levels/Level4.lvl \
     Shaders/menushader.frag \
     Shaders/menushader.vert \
     Shaders/playshader.frag \

@@ -35,6 +35,9 @@ public: // Access Functions
     //! Called to get/set the applied force to the Player.
     QVector3D & force() { return mForce; }
 
+    //! Called to get/set the number of layer lives.
+    uint & lives() { return mLives; }
+
     //! Called to get/set the Players mass.
     float & mass() { return mMass; }
 
@@ -86,6 +89,9 @@ private:
 
     //! Used to store the force the user is applying to the player.
     QVector3D mForce;
+
+    //! Used to track the number of lives the Player has remaining.
+    uint mLives = 0;
 
     //! Used to store the player's mass.
     float mMass = 0.010f;

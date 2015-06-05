@@ -124,9 +124,6 @@ void Level::load()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Level::load()...";
 
-    //! Increment level index to next Level.
-    mLevelIndex++;
-
     //! Create Level file name with Level index.
     QString name(":Level" + QString::number(mLevelIndex) );
 

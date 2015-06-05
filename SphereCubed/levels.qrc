@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file alias="Level1">Levels/Level1.lvl</file>
+        <file alias="Level2">Levels/Level2.lvl</file>
+        <file alias="Level3">Levels/Level3.lvl</file>
+        <file alias="Level4">Levels/Level4.lvl</file>
     </qresource>
 </RCC>

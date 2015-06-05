@@ -224,6 +224,9 @@ void GameFinishedState::exit()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedState::exit...";
 
+    //! Increment the Level index to the next Level.
+    mWorld.level().levelIndex()++;
+
     //! Unload the menu image.
     mWorld.menu().unload();
 } // GameFinishedState::exit()
@@ -283,6 +286,12 @@ GameMenuState::~GameMenuState()
 void GameMenuState::enter()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameMenuState::enter...";
+
+    //! Start the new game at the first Level.
+    mWorld.level().levelIndex() = 1;
+
+    //! Start the new game with 3 lives.
+    mWorld.player().lives() = 3;
 
     //! Set the Camera Menu flag to trigger the Menu Event to Switch to the Menu State.
     mWorld.camera().setMenu( true );
@@ -609,6 +618,7 @@ void GamePlayState::tick()
 
     //! Update the Camera
     mWorld.camera().tick();
+
 } // GamePlayState::tick()
 
 // GameWonState ---------------------------------------------------------------
@@ -763,12 +773,14 @@ State * GameDiedEvent::test()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameDiedEvent::process...";
 
-    //! If Died equals true
-    if( mWorld.getDied() == true )
+    //! If the Player is not longer in the Level.
+    if( mWorld.level().insideLevel( mWorld.player().position() ) == false )
     {
         TraceOut( TRACE_FILE_EXECUTION ) << "Event occured...";
-        //! The Event has been triggered so reset the condition.
-        mWorld.setDied( false );
+
+        //! Then they have died, so decrement there number of lives by one.
+        mWorld.player().lives()--;
+
         //! Return the State to transition to.
         return mpState;
     }
@@ -806,12 +818,14 @@ State * GameFinishedEvent::test()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameFinishedEvent::process...";
 
-    //! If Finished equals true
-    if( mWorld.getFinished() == true )
+    //! If the Player is positioned on the Finish Cube.
+    QVector3D position = mWorld.player().position();
+    if( mWorld.level().cubeType( qRound(position.x()), qRound(position.z()) ) == Cube::CubeType::FINISH )
     {
         TraceOut( TRACE_FILE_EXECUTION ) << "Event occured...";
-        //! The Event has been triggered so reset the condition.
-        mWorld.setFinished( false );
+
+        //! The Level has been completed.
+
         //! Return the State to transition to.
         return mpState;
     }
@@ -849,12 +863,13 @@ State * GameLastLevelEvent::test()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameLastLevelEvent::process...";
 
-    //! If LastLevel equals true
-    if( mWorld.getLastLevel() == true )
+    //! If the Player was in the last Level.
+    if( mWorld.level().levelIndex() == 3 )
     {
         TraceOut( TRACE_FILE_EXECUTION ) << "Event occured...";
-        //! The Event has been triggered so reset the condition.
-        mWorld.setLastLevel( false );
+
+        //! The Game has been won.
+
         //! Return the State to transition to.
         return mpState;
     }
@@ -892,12 +907,13 @@ State * GameLastLifeEvent::test()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "GameLastLifeEvent::process...";
 
-    //! If LastLife equals true
-    if( mWorld.getLastLife() == true )
+    //! If the Player now has Zero lives.
+    if( mWorld.player().lives() == 0 )
     {
         TraceOut( TRACE_FILE_EXECUTION ) << "Event occured...";
-        //! The Event has been triggered so reset the condition.
-        mWorld.setLastLife( false );
+
+        //! The Game is Over.
+
         //! Return the State to transition to.
         return mpState;
     }

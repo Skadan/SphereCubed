@@ -101,6 +101,15 @@ void Player::load()
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Player::load()...";
 
+    //! Reset the player heading direction.
+    mDirection = QVector3D(0,0,1);
+
+    //! Reset the user force.
+    mForce = QVector3D( 0.0f, 0.0f, 0.0f );
+
+    //! reset the user velocity.
+    mVelocity = QVector3D( 0.0f, 0.0f, 0.0f );
+
     //! Load the Sphere openGL resources.
     mSphere.load();
 } // Player::load()

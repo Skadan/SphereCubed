@@ -20,14 +20,6 @@ World::World( int timeInterval ) :
     mPhysics( timeInterval, mLevel, mPlayer )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "World::World()...";
-
-    //! Initialize the member variables.
-    mDied = false;
-    mFinished = false;
-    mLastLevel = false;
-    mLastLife = false;
-    mReturnKeyPressed = false;
-    mSpaceKeyPressed = false;
 } // World::World()
 
 //! The World execution ends here.

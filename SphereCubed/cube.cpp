@@ -289,10 +289,19 @@ void Cube::render( const Camera & camera, const Light & light )
     //! If Cube resources are NOT loaded Assert to alert there is an issue.
     Q_ASSERT_X( mLoaded == true, "Cube::render","Resources NOT Loaded!");
 
+    //! If the Cube is not in the view of the Camera.
     if( camera.boxViewable( mBox + mPosition ) == false )
     {
+        //! Return without rendering.
         return;
-    }
+    } // if( camera.boxViewable( mBox + mPosition ) == false )
+
+    //! It the Cube is of type Hole.
+    if( mType == CubeType::HOLE )
+    {
+        //! Return without rendering.
+        return;
+    } // if( mType == CubeType::HOLE )
 
     //! Get a reference to the Camera view matrix.
     const QMatrix4x4 & viewMatrix = camera.viewMatrix();
