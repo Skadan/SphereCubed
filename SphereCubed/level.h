@@ -85,7 +85,7 @@ private: // Member Variables
     const float mCubeSize = 1.0f;
 
     //! Used to store the current Level index number, initialized to zero.
-    uint mLevelIndex;
+    uint mLevelIndex = 0;
 
     //! Used to store the start location of the Level.
     QVector3D mStartPosition;
