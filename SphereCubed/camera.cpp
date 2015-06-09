@@ -51,10 +51,18 @@ void CameraMenuState::enter()
     //! Set the color to clear the scene with to black
     glClearColor(0.0f,0.0f,0.0f,1.0f);
 
+    //! Turn off depth testing anf back face culling.
+    glDisable( GL_DEPTH_TEST );
+    glDisable( GL_CULL_FACE );
+
     //! Setup the camera to view the Menu.
 
-    //! Position the Camera 2 units out in the Z direction.
-    mCamera.eye()       = QVector3D(0.0f,0.0f,2.0f);
+    //! Set the projection matrix mode to orthoginal and recalculate the matrix.
+    mCamera.setProjectionMode( Camera::ProjectMode::ORTHOGONAL );
+    mCamera.projection();
+
+    //! Position the Camera 1 units out in the Z direction.
+    mCamera.eye()       = QVector3D(0.0f,0.0f,1.0f);
     //! Focus the Camera on the origin.
     mCamera.focus()     = QVector3D(0,0,0);
     //! Orient the Camera so that positive Y is up.
@@ -120,13 +128,17 @@ void CameraPlayState::enter()
     TraceOut( TRACE_FILE_EXECUTION ) << "CameraPlayState::enter()...";
 
     //! Turn on depth testing anf back face culling.
-    glEnable(GL_DEPTH_TEST );
+    glEnable( GL_DEPTH_TEST );
     glEnable( GL_CULL_FACE );
 
-    //! Set the color to clear the scene with to black
-    glClearColor(0.0f,0.0f,0.0f,1.0f);
+    //! Set the color to clear the scene with to dark grey.
+    glClearColor(0.2f,0.2f,0.2f,1.0f);
 
     //! Setup the camera to view game play.
+
+    //! Set the projection matrix mode to perspective and recalculate the matrix.
+    mCamera.setProjectionMode( Camera::ProjectMode::PERSPECTIVE );
+    mCamera.projection();
 
     //! Position the Camera.
     mCamera.eye()       = QVector3D(0.0f,10.0f,0.0f);
@@ -383,6 +395,36 @@ void Camera::configure()
     setStartState( pCameraMenuState );
 } // Camera::configure()
 
+//! Calculate the OpenGL projection matrix.
+//! \return void
+//! \sa Camera
+void Camera::projection()
+{
+    //! Set the viewport to be the entire window.
+    glViewport(0, 0, mWindowSize.width(), mWindowSize.height());
+
+    //! If the current projection mode is orthoginal.
+    if( mProjectMode == ORTHOGONAL )
+    {
+        //! -Calculate the orthogonal projection matrix.
+        mProjectionMatrix.setToIdentity();
+        mProjectionMatrix.ortho( 0.0f, 0, 0.0f, 1, -1.0f, 1.0f );
+    } // if( mProjectMode == ORTHOGONAL )
+    //! Else the current projection mode is perspective.
+    else
+    {
+        //! -Calculate the ratio and prevent a divide by zero.
+        float ratio = (float)mWindowSize.width() / ( mWindowSize.height()==0 ? 1.0f : (float)mWindowSize.height());
+
+        //! -Calculate the perspective projection matrix.
+        mProjectionMatrix.setToIdentity();
+        mProjectionMatrix.perspective( mFeildOfView, ratio, mNearDistance, mFarDistance );
+
+        //! -Update the bounding frustum with the projection settings.
+        mFrustum.projection( mFeildOfView, ratio, mNearDistance, mFarDistance );
+    } // if( mProjectMode == ORTHOGONAL ) else
+} // Camera::projection()
+
 //! Resized the OpenGL projection matrix.
 //! \param width in pixels of the OpenGL context.
 //! \param height in pixels of the OpenGL context.
@@ -392,18 +434,11 @@ void Camera::resize( const int width, const int height )
 {
     TraceOut( TRACE_FILE_EXECUTION ) << "Camera::resize...";
 
-    //! Calculate the ratio and prevent a divide by zero.
-    float ratio = (float)width / ( height==0 ? 1.0f : (float)height);
+    //! Store the window's new width and height.
+    mWindowSize = QSize( width, height );
 
-    //! Set the viewport to be the entire window.
-    glViewport(0, 0, width, height);
-
-    //! Set the perspective.
-    mProjectionMatrix.setToIdentity();
-    mProjectionMatrix.perspective( mFeildOfView, ratio, mNearDistance, mFarDistance );
-
-    //! Update the bounding frustum with the projectio settings.
-    mFrustum.projection( mFeildOfView, ratio, mNearDistance, mFarDistance );
+    //! Re-calculate the projection matrix.
+    projection();
 } // Camera::resize( const int width, const int height )
 
 //! Rotate the poisition of the Camera around the point of focus by the Yaw and Pitch angles.

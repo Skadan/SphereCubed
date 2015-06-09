@@ -166,7 +166,17 @@ class Camera : public Machine
     //! Friend of World so that only World can instantiate the Camera.
     friend class World;
 
-public:
+public: // Member Types
+    //! Enumeration of the Camer's Projection Modes.
+    enum ProjectMode
+    {
+        //! Render 2D
+        ORTHOGONAL,
+        //! Render 3D
+        PERSPECTIVE
+    }; // enum ProjectMode
+
+public: // Member Functions
     //! Access function to get/set Camera pitch angle.
     //! \return float reference to the Camera pitch angle in degrees.
     //! \sa Camera
@@ -209,6 +219,11 @@ public:
     //! \sa Camera
     bool getPlay() { return mPlay; }
 
+    //! Access function to setup the projection matrix for the currently selceted rendering mode.
+    //! \return void
+    //! \sa Camera
+    void projection();
+
     //! Access function to get Camera projection matrix..
     //! \return QMatrix4x4 reference to the Camera projection matrix.
     //! \sa Camera
@@ -235,10 +250,15 @@ public:
     //! \sa Camera
     void setPlay( bool value ) { mPlay = value; }
 
+    //! Access function to set the Camera Projectmode.
+    //! \param mode is the enumerated mode to configure the projection matrix.
+    //! \sa Camera
+    void setProjectionMode( ProjectMode mode ) { mProjectMode = mode ; }
+
     //! Access function to get/set the Camera target direction..
     //! \return QVector3D reference to the Camera target direction.
     //! \sa Camera
-    QVector3D & targetDirection() { return mCameraTargetDirection; }
+    QVector3D & targetDirection() { return mTargetDirection; }
 
     //! Access function to get/set the Camera target distance..
     //! \return QVector3D reference to the Camera target distence.
@@ -248,7 +268,7 @@ public:
     //! Access function to get/set the Camera target position..
     //! \return QVector3D reference to the Camera target position.
     //! \sa Camera
-    QVector3D & targetPosition()  { return mCameraTargetPosition; }
+    QVector3D & targetPosition()  { return mTargetPosition; }
 
     //! Access function to setup the bounding Frustum planes for the new settings.
     //! \param eye is the position of the Camera.
@@ -281,11 +301,11 @@ private: // Member Function
     void configure();
 
 private: // Member Variables
-    //! Used to store the Camera yaw angle, initialize to 270.0 degrees.
-    float mCameraAngleYaw = 270.0f;
+    //! Used to store the Camera yaw angle, initialize to default setting.
+    float mCameraAngleYaw = CAMERA_ANGLE_YAW;
 
-    //! Used to store the Camera pitch angle, initialize to 45.0 degrees.
-    float mCameraAnglePitch = 45.0f;
+    //! Used to store the Camera pitch angle, initialize to default setting.
+    float mCameraAnglePitch = CAMERA_ANGLE_PITCH;
 
     //! Used to store the up direction of Camera.
     QVector3D mCameraDirection;
@@ -320,14 +340,20 @@ private: // Member Variables
     //! Used to store the Camera projection matrix.
     QMatrix4x4 mProjectionMatrix;
 
+    //! Used to store the Camera projection matrix mode, default to orthoginal.
+    ProjectMode mProjectMode = ORTHOGONAL;
+
     //! Used to store the direction the target is moving.
-    QVector3D mCameraTargetDirection;
+    QVector3D mTargetDirection;
 
     //! Used to store the position of the target.
-    QVector3D mCameraTargetPosition;
+    QVector3D mTargetPosition;
 
     //! Used to store the Camera view matrix.
     QMatrix4x4 mViewMatrix;
+
+    //! Used to store the width and height of the application window.
+    QSize mWindowSize;
 }; // class Camera
 
 #endif // CAMERA_H

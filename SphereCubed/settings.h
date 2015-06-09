@@ -6,6 +6,12 @@ This file contains the settings for the Sphere Cubed application.
 #ifndef SETTINGS
 #define SETTINGS
 
+//! Camera pitch angle used during game play.
+#define CAMERA_ANGLE_PITCH                  30.0f
+
+//! Camera yaw angle for start of level game play.
+#define CAMERA_ANGLE_YAW                    270.0f
+
 //! Camera far clipping plane distance unitless.
 #define CAMERA_FAR_CLIPPING_PLANE_DISTANCE  50.0f
 
