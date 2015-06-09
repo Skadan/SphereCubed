@@ -58,6 +58,10 @@ DISTFILES += \
     Levels/Level2.lvl \
     Levels/Level3.lvl \
     Levels/Level4.lvl \
+    Levels/Level5.lvl \
+    Levels/Level6.lvl \
+    Levels/Level7.lvl \
+    Levels/Level8.lvl \
     Shaders/menushader.frag \
     Shaders/menushader.vert \
     Shaders/playshader.frag \

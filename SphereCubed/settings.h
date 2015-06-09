@@ -18,6 +18,9 @@ This file contains the settings for the Sphere Cubed application.
 //! Engine tick interval in mS.
 #define ENGINE_TICK_INTERVAL                50
 
+//! Number of levels in game.
+#define GAME_LEVEL_COUNT                    8
+
 //! Window Height in pixels.
 #define WINDOW_HEIGHT                       480
 

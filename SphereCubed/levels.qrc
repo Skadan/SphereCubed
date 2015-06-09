@@ -4,5 +4,9 @@
         <file alias="Level2">Levels/Level2.lvl</file>
         <file alias="Level3">Levels/Level3.lvl</file>
         <file alias="Level4">Levels/Level4.lvl</file>
+        <file alias="Level5">Levels/Level5.lvl</file>
+        <file alias="Level6">Levels/Level6.lvl</file>
+        <file alias="Level7">Levels/Level7.lvl</file>
+        <file alias="Level8">Levels/Level8.lvl</file>
     </qresource>
 </RCC>

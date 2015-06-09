@@ -11,6 +11,8 @@ This file contains the Game class implementation for the application.
 #include <QKeyEvent>
 
 
+// setting.h header file required for application seeting.
+#include "settings.h"
 // trace.h header file required for tracing execution.
 #include "trace.h"
 
@@ -864,7 +866,7 @@ State * GameLastLevelEvent::test()
     TraceOut( TRACE_FILE_EXECUTION ) << "GameLastLevelEvent::process...";
 
     //! If the Player was in the last Level.
-    if( mWorld.level().levelIndex() == 3 )
+    if( mWorld.level().levelIndex() == GAME_LEVEL_COUNT )
     {
         TraceOut( TRACE_FILE_EXECUTION ) << "Event occured...";
 
